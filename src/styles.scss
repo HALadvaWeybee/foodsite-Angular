@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+.menu {
+    margin-top: 20px;
+    .grid {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+    
+        .wc {
+            display: none;
+            position: absolute;
+            cursor: pointer;
+            .fa-regular {
+                margin-right: 5px;
+            }
+            i {
+                font-size: 24px;
+            }
+            a {
+                color: black;
+            }
+        }
+
+        .food:hover {
+            .wc {
+                display: block;
+            }
+        }
+        img {
+            width: 200px;
+            height: 200px;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+<div class="container menu">
+    <div class="d-flex flex-column">
+        <div class="grid">
+            <div *ngFor="let item of bestfoods">
+                <div>
+                    <a routerLink="{{item.dsc}}"><img src={{item.img}} alt="No image found"  onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'"></a>
+                </div>
+                <ul>
+                    <li>{{item?.name}}</li>
+                    <li>{{item?.dsc}}</li>
+                    <li>{{item?.country}}</li>
+                    <li>{{item?.price}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
