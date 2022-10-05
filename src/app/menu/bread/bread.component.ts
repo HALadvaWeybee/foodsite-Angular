@@ -6,25 +6,36 @@ import { CartService } from 'src/app/services/cart.service';
 @Component({
   selector: 'app-bread',
   templateUrl: './bread.component.html',
-  styleUrls: ['./bread.component.scss']
+  styleUrls: ['./bread.component.scss'],
 })
 export class BreadComponent implements OnInit {
+  constructor(
+    private homeService: HomeService,
+    private wishService: WishlistService,
+    private cartService: CartService
+  ) {}
+  data: any;
+  breads: any[] = [];
+  food: any;
+  page: number = 1;
+  total: number = 0;
 
-  constructor(private homeService: HomeService, private wishService:WishlistService, private cartService:CartService) { }
-  data:any;
-  breads:any[] =[];
-  
   async ngOnInit() {
-     this.breads = await this.homeService.getAllBreads();
+    this.breads = await this.homeService.getAllBreads();
+    this.total = this.breads.length;
   }
 
-  addToWishList(id:string) {
-    const index = this.breads.findIndex((ele:any) => ele.id == id);
-    this.wishService.addFoodToWishList(this.breads[index])
- }
+  addToWishList(id: string) {
+    const index = this.breads.findIndex((ele: any) => ele.id == id);
+    this.wishService.addFoodToWishList(this.breads[index]);
+  }
 
- addToCartList(id:string) {
-  const index = this.breads.findIndex((ele:any) => ele.id == id);
-  this.cartService.addFoodToCartList(this.breads[index]);
- }
+  addToCartList(id: string) {
+    const index = this.breads.findIndex((ele: any) => ele.id == id);
+    this.cartService.addFoodToCartList(this.breads[index]);
+  }
+
+  pageChangeEvent(event: number) {
+    this.page = event;
+  }
 }

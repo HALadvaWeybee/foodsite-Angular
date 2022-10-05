@@ -1,7 +1,7 @@
 <div class="container menu">
     <div class="d-flex flex-column">
         <div class="grid">
-            <div *ngFor="let item of breads">
+            <div *ngFor="let item of breads | paginate: { itemsPerPage: 8, currentPage: page, totalItems: total }; let i = index;">
                 <div class="food">
                     <div class="wc">
                         <a routerLink="{{item.dsc}}"><i class="fa-regular fa-heart" (click)="addToWishList(item.id)"></i></a>
@@ -17,5 +17,10 @@
                 </ul>
             </div>
         </div>
+    </div>
+</div>
+<div class="container">
+    <div class="pagination d-flex justify-content-end mt-1">
+       <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
     </div>
 </div>

@@ -8,6 +8,7 @@ import { SandwitchComponent } from './sandwitch/sandwitch.component';
 import { BreadComponent } from './bread/bread.component';
 import { DrinkComponent } from './drink/drink.component';
 import { BestfoodComponent } from './bestfood/bestfood.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -18,12 +19,7 @@ import { BestfoodComponent } from './bestfood/bestfood.component';
     DrinkComponent,
     BestfoodComponent,
   ],
-  imports: [
-    CommonModule,
-    MenuRoutingModule
-  ],
-  exports: [
-    BurgerComponent
-  ]
+  imports: [CommonModule, MenuRoutingModule, NgxPaginationModule],
+  exports: [BurgerComponent],
 })
-export class MenuModule { }
+export class MenuModule {}

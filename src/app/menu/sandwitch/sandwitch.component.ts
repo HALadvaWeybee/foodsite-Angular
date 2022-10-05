@@ -6,25 +6,37 @@ import { WishlistService } from 'src/app/services/wishlist.service';
 @Component({
   selector: 'app-sandwitch',
   templateUrl: './sandwitch.component.html',
-  styleUrls: ['./sandwitch.component.scss']
+  styleUrls: ['./sandwitch.component.scss'],
 })
 export class SandwitchComponent implements OnInit {
+  constructor(
+    private homeService: HomeService,
+    private wishService: WishlistService,
+    private cartService: CartService
+  ) {}
+  data: any;
+  sandwitches: any[] = [];
+  food: any;
+  page: number = 1;
+  total: number = 0;
 
-  constructor(private homeService: HomeService, private wishService: WishlistService, private cartService:CartService) { }
-  data:any;
-  sandwitches:any[] =[];
   async ngOnInit() {
     this.sandwitches = await this.homeService.getAllSandwitchs();
+    this.total = this.sandwitches.length;
   }
-  
-  addToWishList(id:string) {
-    const index = this.sandwitches.findIndex((ele:any) => ele.id == id);
-    
-    this.wishService.addFoodToWishList(this.sandwitches[index])
- }
 
- addToCartList(id:string) {
-  const index = this.sandwitches.findIndex((ele:any) => ele.id == id);
-  this.cartService.addFoodToCartList(this.sandwitches[index]);
- }
+  addToWishList(id: string) {
+    const index = this.sandwitches.findIndex((ele: any) => ele.id == id);
+
+    this.wishService.addFoodToWishList(this.sandwitches[index]);
+  }
+
+  addToCartList(id: string) {
+    const index = this.sandwitches.findIndex((ele: any) => ele.id == id);
+    this.cartService.addFoodToCartList(this.sandwitches[index]);
+  }
+
+  pageChangeEvent(event: number) {
+    this.page = event;
+  }
 }
