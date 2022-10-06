@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { WishlistComponent } from './wccompo/wishlist/wishlist.component';
 import { CartComponent } from './wccompo/cart/cart.component';
+import { CoreComponent } from './core/core.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { CartComponent } from './wccompo/cart/cart.component';
     HomeComponent,
     WishlistComponent,
     CartComponent,
+    CoreComponent,
   ],
   imports: [
     BrowserModule,
