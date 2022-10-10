@@ -17,6 +17,7 @@ export class WishlistComponent implements OnInit {
 
   deleteFromWish(id:string) {
     this.foodList = this.foodList.filter((ele:any) => ele.id!=id);
+    this.wishService.deleteFromWishList(id);
   }
 
 }

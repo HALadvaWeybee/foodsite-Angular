@@ -1,23 +1,41 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
-})
+  providedIn: 'root',
+}) 
 export class WishlistService {
 
-  constructor() { }
   wishList:any[] =[];
+  productList = new BehaviorSubject<any>([]);
+
+  constructor() { 
+    const _wishData = localStorage.getItem('wishList');
+    if(_wishData)
+     this.wishList = (JSON.parse(_wishData))
+  }
 
   addFoodToWishList(obj:any) {
-     this.wishList = this.wishList.filter((ele:any) => ele.id != obj.id)
-     this.wishList.push(obj);
-     this.getWishListCount();
-     console.log("this wishlist", this.wishList);
+     if(this.wishList.length==0 || (this.wishList.indexOf(obj)==-1 && this.wishList.length!=0)) {
+       this.wishList.push(obj);
+       this.productList.next(this.wishList);
+       this.setInLocalStorage();   
+      } else {
+        this.deleteFromWishList(obj?.id);
+      }
   }
   
+  deleteFromWishList(id:string) {
+    this.wishList = this.wishList.filter((ele:any) => ele.id!=id);
+    this.productList.next(this.wishList);
+    if(this.wishList.length ==1) this.wishList = [];
+    this.setInLocalStorage()
+  }
   getWishListCount() {
-     console.log("this wishlist", this.wishList.length);
-     
-     return this.wishList.length;
+    return this.productList.asObservable();
+  }
+
+  setInLocalStorage() {
+    localStorage.setItem('wishList', JSON.stringify([...this.wishList])); 
   }
 }

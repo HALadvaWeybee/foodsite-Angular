@@ -1,5 +1,13 @@
 <div class="container menu">
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column justify-content-around">
+        <div class="d-flex justify-content-center flex-column mt-5" *ngIf="foodList.length==0">
+            <div class="text-center">
+                <img src="assets/photos/empty-cart.png" alt="Not found">
+            </div>
+            <div class="text-center">
+                <h2>Your wishlist empty</h2>
+            </div>
+        </div>
         <div class="grid">
             <div *ngFor="let item of foodList">
                 <div>
@@ -10,7 +18,7 @@
                     <li>{{item?.dsc}}</li>
                     <li>{{item?.country}}</li>
                     <li>{{item?.price}}</li>
-                    <li><button (click)="deleteFromWish(item.id)">Delete</button></li>
+                    <li><button class="btn btn-warning" (click)="deleteFromWish(item.id)">Delete</button></li>
                 </ul>
             </div>
         </div>

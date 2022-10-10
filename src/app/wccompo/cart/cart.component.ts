@@ -17,6 +17,7 @@ export class CartComponent implements OnInit {
 
   deleteFromCart(id:string) {
     this.foodList = this.foodList.filter((ele:any) => ele.id!=id);
+    this.cartService.deleteFromCartList(id);
   }
 
 }

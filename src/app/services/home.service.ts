@@ -14,13 +14,27 @@ export class HomeService {
   pizzas:any[] =[];
   sandwitchs:any[] =[];
   drinks:any[]=[];
-  getBestForYou(){
-    return this.http.get('./assets/menus/best-foods.json');
-  }
+  bestFood:any[] =[];
+  resentFood:any[] =[];
 
+  getBestForYou(){
+    return this.http.get('https://ig-food-menus.herokuapp.com/best-foods');
+  }
+ 
+  async getAllbestFood() {
+    if(this.bestFood.length == 0) {
+      await this.http.get('./assets/menus/best-foods.json').toPromise().then((res) => {
+         this.data = res;
+         this.bestFood = this.data;
+         return this.bestFood;
+      })
+    }
+    return this.bestFood;
+  }
+  
   async getAllBurgers() {
     if(this.burgers.length == 0) {
-      await this.http.get('./assets/menus/burgers.json').toPromise().then((res) => {
+      await this.http.get('https://ig-food-menus.herokuapp.com/burgers').toPromise().then((res) => {
          this.data = res;
          this.burgers = this.data;
          return this.burgers;
@@ -31,7 +45,7 @@ export class HomeService {
 
   async getAllBreads() {
     if(this.breads.length == 0) {
-      await this.http.get('./assets/menus/breads.json').toPromise().then((res) => {
+      await this.http.get('https://ig-food-menus.herokuapp.com/breads').toPromise().then((res) => {
          this.data = res;
          this.breads = this.data;
          return this.breads;
@@ -42,7 +56,7 @@ export class HomeService {
 
   async getAllSandwitchs() {
     if(this.sandwitchs.length == 0) {
-      await this.http.get('./assets/menus/sandwiches.json').toPromise().then((res) => {
+      await this.http.get('https://ig-food-menus.herokuapp.com/sandwiches').toPromise().then((res) => {
          this.data = res;
          this.sandwitchs = this.data;
          return this.sandwitchs;
@@ -53,7 +67,7 @@ export class HomeService {
 
   async getAllPizzas() {
     if(this.pizzas.length == 0) {
-      await this.http.get('./assets/menus/pizzas.json').toPromise().then((res) => {
+      await this.http.get('https://ig-food-menus.herokuapp.com/pizzas').toPromise().then((res) => {
          this.data = res;
          this.pizzas = this.data;
          return this.pizzas;
@@ -64,7 +78,7 @@ export class HomeService {
 
   async getAllDrinks() {
     if(this.drinks.length == 0) {
-      await this.http.get('./assets/menus/drinks.json').toPromise().then((res) => {
+      await this.http.get('https://ig-food-menus.herokuapp.com/drinks').toPromise().then((res) => {
          this.data = res;
          this.drinks = this.data;
          return this.drinks;
@@ -72,25 +86,5 @@ export class HomeService {
     }
     return this.drinks;
   }
- 
-
-  // getAllBreads() {
-  //   return this.http.get('/assets/menus/breads.json');
-  // }
-
-  // getAllSandwitchs() {
-  //   return this.http.get('/assets/menus/sandwiches.json');
-  // }
-
-  // getAllPizzas() {
-  //   return this.http.get('/assets/menus/pizzas.json');
-  // }
-
-  // getAllDrinks() {
-  //   return this.http.get('/assets/menus/drinks.json');
-  // }
-
-  getAllBestFoods() {
-    return this.http.get('/assets/menus/best-foods.json');
-  }
+  
 }

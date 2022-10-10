@@ -6,7 +6,9 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { WishlistComponent } from './wccompo/wishlist/wishlist.component';
 import { CartComponent } from './wccompo/cart/cart.component';
-import { CoreComponent } from './core/core.component';
+import { FoodComponent } from './food/food.component';
+import { FoodinfoComponent } from './foodinfo/foodinfo.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -14,14 +16,16 @@ import { CoreComponent } from './core/core.component';
     HomeComponent,
     WishlistComponent,
     CartComponent,
-    CoreComponent,
+    FoodComponent,
+    FoodinfoComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

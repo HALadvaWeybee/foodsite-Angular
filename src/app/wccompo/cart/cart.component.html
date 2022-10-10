@@ -1,6 +1,14 @@
 <div class="container menu">
-    <div class="d-flex flex-column">
-        <div class="grid">
+    <div class="d-flex flex-column justify-content-around">
+        <div class="d-flex justify-content-center flex-column mt-5" *ngIf="foodList.length==0">
+            <div class="text-center">
+                <img src="assets/photos/empty-cart.png" alt="Not found">
+            </div>
+            <div class="text-center">
+                <h2>Your cart empty</h2>
+            </div>
+        </div>
+        <div class="text-center grid">
             <div *ngFor="let item of foodList">
                 <div>
                     <a routerLink="{{item.dsc}}" ><img src={{item.img}} alt="No image found"  onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'"></a>
@@ -10,7 +18,7 @@
                     <li>{{item?.dsc}}</li>
                     <li>{{item?.country}}</li>
                     <li>{{item?.price}}</li>
-                    <li><button (click)="deleteFromCart(item.id)">Delete</button></li>
+                    <li><button class="btn btn-warning" (click)="deleteFromCart(item.id)">Delete</button></li>
                 </ul>
             </div>
         </div>

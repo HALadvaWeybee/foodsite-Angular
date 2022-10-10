@@ -16,6 +16,8 @@ export class FoodinfoComponent implements OnInit {
   slug:any;
   data:any[] =[];
   index:number = -1;
+  cartMsg:boolean = false;
+  wishMsg:boolean = false;
   printDetail:any;
   productCount:number=1;
 
@@ -27,39 +29,27 @@ export class FoodinfoComponent implements OnInit {
     switch(this.slug) {
       case 'burger':
         this.data = await this.homeService.getAllBurgers();
-        this.index = this.data.findIndex((ele:any) => ele.dsc == this.dsc);
-        this.printDetail = this.data[this.index];
-        console.log(this.printDetail);
         break;
-
       case 'bread':
         this.data = await this.homeService.getAllBreads();
-        this.index = this.data.findIndex((ele:any) => ele.dsc == this.dsc);
-        this.printDetail = this.data[this.index];
-        console.log(this.printDetail);
         break;
-
       case 'sandwitch':
         this.data = await this.homeService.getAllSandwitchs();
-        this.index = this.data.findIndex((ele:any) => ele.dsc == this.dsc);
-        this.printDetail = this.data[this.index];
-        console.log(this.printDetail);
         break;
-
       case 'pizza':
         this.data = await this.homeService.getAllPizzas();
-        this.index = this.data.findIndex((ele:any) => ele.dsc == this.dsc);
-        this.printDetail = this.data[this.index];
-        console.log(this.printDetail);
-        break;
-        
+        break;  
       case 'drink':
         this.data = await this.homeService.getAllDrinks();
-        this.index = this.data.findIndex((ele:any) => ele.dsc == this.dsc);
-        this.printDetail = this.data[this.index];
-        console.log(this.printDetail);
+        break;
+      case 'bestfood':
+        this.data = await this.homeService.getAllbestFood();
         break;
     }
+    this.index = this.data.findIndex((ele: any) => ele.dsc == this.dsc);
+    this.printDetail = this.data[this.index];
+    if(this.homeService.resentFood.length < 5) this.homeService.resentFood.push(this.printDetail)
+    console.log(this.printDetail);
   }
 
   add() {
@@ -72,10 +62,18 @@ export class FoodinfoComponent implements OnInit {
 
   addToWishList() {
     this.wishService.addFoodToWishList(this.printDetail);
+    this.wishMsg = true;
+    setTimeout(() => {
+      this.wishMsg = false;
+    }, 2000);
   }
 
   addToCartList() {
     this.cartService.addFoodToCartList(this.printDetail);
+    this.cartMsg = true;
+    setTimeout(() => {
+      this.cartMsg = false;
+    }, 2000);
   }
 
 }

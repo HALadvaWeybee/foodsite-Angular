@@ -1,9 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 .menu {
     margin-top: 20px;
+    ul {
+      list-style-type: none;
+    }
     .grid {
         display: grid;
-        grid-template-columns: auto auto auto auto;
+        grid-template-columns: 235px 235px 235px 235px;
+        // grid-template-columns: auto auto auto auto;
+        column-gap: 50px;
     
         .wc {
             display: none;
@@ -13,13 +18,16 @@
                 margin-right: 5px;
             }
             i {
-                font-size: 24px;
+                font-size: 35px;
             }
             a {
-                color: black;
+                color: orange;
+            }
+            a:first-child {
+              margin-left:30px;
             }
         }
-
+  
         .food:hover {
             .wc {
                 display: block;
@@ -28,6 +36,7 @@
         img {
             width: 200px;
             height: 200px;
+            border-radius: 25px;
         }
     }
-}
+  }

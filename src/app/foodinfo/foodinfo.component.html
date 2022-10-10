@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="d-flex flex-row">
+        <div class="detail-image d-flex flex-column">
+            <img src={{printDetail?.img}} alt="No Image Found" width="450" height="450"
+                onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'">
+        </div>
+        <div class="d-flex flex-column">
+            <ul>
+                <li>{{printDetail?.name}}</li>
+                <li>{{printDetail?.dsc}}</li>
+                <li>{{printDetail?.price}}</li>
+                <li>{{printDetail?.rate}}</li>
+                <li>
+                    <button class="sub" (click)="sub()">-</button>
+                    <span class="product-count">{{productCount}}</span>
+                    <button class="add" (click)="add()">+</button>
+                </li>
+                <li>
+                    <button  class="btn btn-warning" (click)="addToCartList()">Add to cart</button>&nbsp;
+                    <button class="btn btn-warning" (click)="addToWishList()">Add to WishList</button>
+                </li>
+            </ul>
+        </div>
+        <div *ngIf="cartMsg">
+            <label for="one" class="alert-message">
+                <strong>Success</strong> Product added to cart successfully
+            </label>
+        </div>
+        <div  class="wish-msg" *ngIf="wishMsg">
+            <label class="alert-message">
+                <strong>Success</strong> Product added to wishlist successfully
+            </label>
+        </div>
+    </div>
+</div>
