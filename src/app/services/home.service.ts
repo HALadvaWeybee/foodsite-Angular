@@ -16,75 +16,74 @@ export class HomeService {
   drinks:any[]=[];
   bestFood:any[] =[];
   resentFood:any[] =[];
+  ourFoods:any[] =[];
+  pagination:any;
 
   getBestForYou(){
     return this.http.get('https://ig-food-menus.herokuapp.com/best-foods');
   }
  
-  async getAllbestFood() {
-    if(this.bestFood.length == 0) {
-      await this.http.get('./assets/menus/best-foods.json').toPromise().then((res) => {
+  async getAllbestFood(page:number) {
+    await this.http.get('https://ig-food-menus.herokuapp.com/best-foods?_limit=8&_page=' + page).toPromise().then((res) => {
          this.data = res;
          this.bestFood = this.data;
-         return this.bestFood;
       })
-    }
     return this.bestFood;
   }
   
-  async getAllBurgers() {
-    if(this.burgers.length == 0) {
-      await this.http.get('https://ig-food-menus.herokuapp.com/burgers').toPromise().then((res) => {
+  async getAllBurgers(page:number) {
+    await this.http.get('https://ig-food-menus.herokuapp.com/burgers?_limit=8&_page=' + page).toPromise().then((res) => {
          this.data = res;
          this.burgers = this.data;
-         return this.burgers;
-      })
-    }
-    return this.burgers;
+     })
+     return this.burgers;
   }
 
-  async getAllBreads() {
-    if(this.breads.length == 0) {
-      await this.http.get('https://ig-food-menus.herokuapp.com/breads').toPromise().then((res) => {
+  async getAllBreads(page:number) {
+      await this.http.get('https://ig-food-menus.herokuapp.com/breads?_limit=8&_page=' + page).toPromise().then((res) => {
          this.data = res;
          this.breads = this.data;
-         return this.breads;
       })
-    }
     return this.breads;
   }
 
-  async getAllSandwitchs() {
-    if(this.sandwitchs.length == 0) {
-      await this.http.get('https://ig-food-menus.herokuapp.com/sandwiches').toPromise().then((res) => {
+  async getAllSandwitchs(page:number) {
+      await this.http.get('https://ig-food-menus.herokuapp.com/sandwiches?_limit=8&_page=' + page).toPromise().then((res) => {
          this.data = res;
          this.sandwitchs = this.data;
-         return this.sandwitchs;
       })
-    }
     return this.sandwitchs;
   }
 
-  async getAllPizzas() {
-    if(this.pizzas.length == 0) {
-      await this.http.get('https://ig-food-menus.herokuapp.com/pizzas').toPromise().then((res) => {
+  async getAllPizzas(page:number) {
+      await this.http.get('https://ig-food-menus.herokuapp.com/pizzas?_limit=8&_page=' + page).toPromise().then((res) => {
          this.data = res;
          this.pizzas = this.data;
-         return this.pizzas;
       })
-    }
     return this.pizzas;
   }
 
-  async getAllDrinks() {
-    if(this.drinks.length == 0) {
-      await this.http.get('https://ig-food-menus.herokuapp.com/drinks').toPromise().then((res) => {
+  async getAllDrinks(page:number) {
+      await this.http.get('https://ig-food-menus.herokuapp.com/drinks?_limit=8&_page=' + page).toPromise().then((res) => {
          this.data = res;
          this.drinks = this.data;
-         return this.drinks;
       })
-    }
     return this.drinks;
   }
-  
+   
+  async getAllOurFood(search:string) {
+    await this.http.get('https://ig-food-menus.herokuapp.com/our-foods?name_like='+ search).toPromise().then((res) => {
+      this.data = res;
+      this.ourFoods = this.data
+      console.log("ourfoods",this.ourFoods.length);
+   })
+   return this.ourFoods;
+  }
+
+  async getPagination(type:any) {
+     await this.http.get('https://ig-food-menus.herokuapp.com/pagination').toPromise().then((res) => {
+        this.data = res;
+     })
+     return this.data[type];
+  }
 }

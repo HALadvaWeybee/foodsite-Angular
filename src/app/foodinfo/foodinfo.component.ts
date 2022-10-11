@@ -28,22 +28,22 @@ export class FoodinfoComponent implements OnInit {
     
     switch(this.slug) {
       case 'burger':
-        this.data = await this.homeService.getAllBurgers();
+        // this.data = await this.homeService.getAllBurgers();
         break;
       case 'bread':
-        this.data = await this.homeService.getAllBreads();
+        // this.data = await this.homeService.getAllBreads();
         break;
       case 'sandwitch':
-        this.data = await this.homeService.getAllSandwitchs();
+        // this.data = await this.homeService.getAllSandwitchs();
         break;
       case 'pizza':
-        this.data = await this.homeService.getAllPizzas();
+        // this.data = await this.homeService.getAllPizzas();
         break;  
       case 'drink':
-        this.data = await this.homeService.getAllDrinks();
+        // this.data = await this.homeService.getAllDrinks();
         break;
       case 'bestfood':
-        this.data = await this.homeService.getAllbestFood();
+        // this.data = await this.homeService.getAllbestFood();
         break;
     }
     this.index = this.data.findIndex((ele: any) => ele.dsc == this.dsc);

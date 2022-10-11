@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
 import { HomeService } from 'src/app/services/home.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 @Component({
   selector: 'app-food',
@@ -14,82 +14,107 @@ export class FoodComponent implements OnInit {
   listOfFood: any[] = [];
   shownFood: any[] = [];
   food: any;
-  page: number = 1;
+  page: number = Number(this._route.snapshot.queryParamMap.get('page')) ?? 1;
   total: number = 0;
+  search = this._route.snapshot.queryParamMap.get('search') || '';
+  slug:any;
   alertShow:boolean = false;
 
   constructor(
     private homeService: HomeService,
     private wishService: WishlistService,
     private cartService: CartService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _router: Router
   ) {
-    this._route.paramMap.subscribe(() => {
-       this.loadData();
-    })
+    this._route.paramMap.subscribe((par) => {
+      this.loadData();
+      console.log("router paramap called");
+      
+   })
+   this._route.queryParams.subscribe((params: Params):void => {
+     this.page = +params['page'] ? +params['page'] : 1;
+     this.search = params['search'] ? params['search'] :'';
+     console.log("search is", this.search);
+     console.log("page is", this.page);
+   })
   }
   
-  ngOnInit():void {}
-
-  async loadData() {
-     console.log('this param', this._route.snapshot.paramMap.get('slug'));
-
-     switch (this._route.snapshot.paramMap.get('slug')) {
-       case 'burger':
-         this.listOfFood = await this.homeService.getAllBurgers();
-         break;
-       case 'bread':
-         this.listOfFood = await this.homeService.getAllBreads();
-         break;
-       case 'drink':
-         this.listOfFood = await this.homeService.getAllDrinks();
-         break;
-       case 'sandwitch':
-         this.listOfFood = await this.homeService.getAllSandwitchs();
-         break;
-       case 'pizza':
-         this.listOfFood = await this.homeService.getAllPizzas();
-         break;
-       case 'bestfood':
-         this.listOfFood = await this.homeService.getAllbestFood();
-         break;
-     }
-     this.shownFood = this.listOfFood;
-     this.total = this.listOfFood.length;
+  ngOnInit():void {
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams: {
+        page: Number(this._route.snapshot.queryParamMap.get('page')) || 1,
+        search:this._route.snapshot.queryParamMap.get('search')==''?null: this._route.snapshot.queryParamMap.get('search'),
+      },
+      queryParamsHandling:'merge'
+    })
   }
 
-  searchInput(box: any, select: any) {
-    if (select.value == '<100') {
-      this.shownFood = this.listOfFood.filter(
-        (ele: any) =>
-          ele.price < 100 &&
-          ele.name.toLowerCase().includes(box.value.toLowerCase())
-      );
-    } else if (select.value == '>100') {
-      this.shownFood = this.listOfFood.filter(
-        (ele: any) =>
-          (ele.price > 100) &&
-          ele.name.toLowerCase().includes(box.value.toLowerCase())
-      );
-    } else if (select.value == '>200') {
-      this.shownFood = this.listOfFood.filter(
-        (ele: any) =>
-          ele.price > 200 &&
-          ele.name.toLowerCase().includes(box.value.toLowerCase())
-      );
-    } else if (select.value == '<200') {
-      this.shownFood = this.listOfFood.filter(
-        (ele: any) =>
-          ele.price < 200 &&
-          ele.name.toLowerCase().includes(box.value.toLowerCase())
-      );
-    } else {
-      this.shownFood = this.listOfFood.filter((ele: any) =>
-        ele.name.toLowerCase().includes(box.value.toLowerCase())
-      );
-    }
-    this.total = this.shownFood.length;
+  async loadData() {
+     this.slug = this._route.snapshot.paramMap.get('slug');
+    //  console.log('this param', this._route.snapshot.paramMap.get('slug'));
+    // console.log("page is", this._route.snapshot.queryParamMap.get('page'));  
+     switch (this._route.snapshot.paramMap.get('slug')) {
+       case 'burgers':
+         this.listOfFood = await this.homeService.getAllBurgers(this.page);
+         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
+         break;
+       case 'breads':
+         this.listOfFood = await this.homeService.getAllBreads(this.page);
+         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
+         break;
+       case 'drinks':
+         this.listOfFood = await this.homeService.getAllDrinks(this.page);
+         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
+         break;
+       case 'sandwiches':
+         this.listOfFood = await this.homeService.getAllSandwitchs(this.page);
+         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
+         break;
+       case 'pizzas':
+         this.listOfFood = await this.homeService.getAllPizzas(this.page);
+         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
+         break;
+       case 'best-foods':
+         this.listOfFood = await this.homeService.getAllbestFood(this.page);
+         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
+         break;
+       case 'our-foods':
+         console.log("search", this.search);
+         this.listOfFood = await this.homeService.getAllOurFood(this.search);
+         this.total = this.listOfFood.length; 
+         console.log("ourfoods total", this.total);
+         break;
+     }
+    //  this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug'));  
+     this.shownFood = this.listOfFood;
+    // this.total = 60;
+  }
+
+  async searchInput(box: any) {
+    // this._router.navigate([], {
+    //   relativeTo:this._route,
+    //    queryParams: {
+    //     page:this.page==0 ? null:this.page,
+    //     search:box.value
+    //   },
+    //   queryParamsHandling:'merge'
+    // })
+    this.search = box.value;
+    this._router.navigate(['menu/our-foods'],
+      {
+        // relativeTo:this._route,
+        queryParams: {
+          page: Number(this._route.snapshot.queryParamMap.get('page')) || 1,
+          search:this.search==''?null:this.search,
+        },
+        queryParamsHandling:'merge'
+      } 
+    )
+    console.log("this box", box.value);
     this.page = 1;
+    await this.loadData();
   }
 
   addToWishList(id: string) {
@@ -104,5 +129,47 @@ export class FoodComponent implements OnInit {
 
   pageChangeEvent(event: number) {
     this.page = event;
+    if(this._route.snapshot.paramMap.get('slug')!='our-foods') {
+      this.loadData();
+      console.log("you are enter");
+    }
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams: {
+        page: this.page===0 ? null :this.page,
+        search:this.search==''?null:this.search,
+      },
+      queryParamsHandling:'merge'
+    })
   }
 }
+
+// if (select.value == '<100') {
+//   this.shownFood = this.listOfFood.filter(
+//     (ele: any) =>
+//       ele.price < 100 &&
+//       ele.name.toLowerCase().includes(box.value.toLowerCase())
+//   );
+// } else if (select.value == '>100') {
+//   this.shownFood = this.listOfFood.filter(
+//     (ele: any) =>
+//       (ele.price > 100) &&
+//       ele.name.toLowerCase().includes(box.value.toLowerCase())
+//   );
+// } else if (select.value == '>200') {
+//   this.shownFood = this.listOfFood.filter(
+//     (ele: any) =>
+//       ele.price > 200 &&
+//       ele.name.toLowerCase().includes(box.value.toLowerCase())
+//   );
+// } else if (select.value == '<200') {
+//   this.shownFood = this.listOfFood.filter(
+//     (ele: any) =>
+//       ele.price < 200 &&
+//       ele.name.toLowerCase().includes(box.value.toLowerCase())
+//   );
+// } else {
+//   this.shownFood = this.listOfFood.filter((ele: any) =>
+//     ele.name.toLowerCase().includes(box.value.toLowerCase())
+//   );
+// }

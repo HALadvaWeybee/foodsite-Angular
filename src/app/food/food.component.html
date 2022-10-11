@@ -1,8 +1,8 @@
 <div class="container">
     <div class="d-flex flex-wrap justify-content-center mt-3 search-field">
         <input type="text" #box class="search-box" placeholder="Search Food..."
-            (keydown.enter)="searchInput(box,select)">
-        <select name="filter" #select class="select-box" (change)="searchInput(box,select)">
+            (keydown.enter)="searchInput(box)">
+        <select name="filter" #select class="select-box" (change)="searchInput(box)">
             <option value="" default>--filter--</option>
             <option value=">100">above 100</option>
             <option value="<100">below 100</option>
@@ -16,7 +16,7 @@
     <div class="d-flex justify-content-around">
         <div class="text-center grid">
             <div
-                *ngFor="let item of shownFood | paginate: { itemsPerPage: 8, currentPage: page, totalItems: total }; let i = index;">
+                *ngFor="let item of listOfFood | paginate: { itemsPerPage: 8, currentPage: page, totalItems: total }; let i = index;">
                 <div class="food">
                     <div class="wc">
                         <a><i class="fa-regular fa-heart" (click)="addToWishList(item.id)"></i></a>
@@ -38,6 +38,6 @@
 </div>
 <div class="container">
     <div class="pagination d-flex justify-content-end mt-1">
-        <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+        <pagination-controls (pageChange)="pageChangeEvent($event)" [routerLink]="['menu/',slug]" [queryParams]="{page:page}"></pagination-controls>
     </div>
 </div>
