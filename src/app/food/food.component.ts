@@ -120,7 +120,7 @@ export class FoodComponent implements OnInit {
 
   addToWishList(id: string) {
     const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
-    this.wishService.addFoodToWishList(this.listOfFood[index]);
+     this.wishService.addFoodToWishList(this.listOfFood[index]);
   }
 
   addToCartList(id: string) {

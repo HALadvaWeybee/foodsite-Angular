@@ -21,8 +21,11 @@ export class HomeService {
   ourFoods:any[] =[];
   pagination:any;
 
-  getBestForYou(){
-    return this.http.get('https://ig-food-menus.herokuapp.com/best-foods');
+  async getBestForYou(){
+    await this.http.get('https://ig-food-menus.herokuapp.com/best-foods?_limit=10').toPromise().then((res) => {
+       this.data = res;
+    });
+    return this.data
   }
   
   async getSpecifyFood(category:string,id:string) {

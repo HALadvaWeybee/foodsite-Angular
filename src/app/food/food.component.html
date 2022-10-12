@@ -26,10 +26,10 @@
                             onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'"></a>
                 </div>
                 <ul>
-                    <li>{{item?.name}}</li>
-                    <li>{{item?.dsc}}</li>
-                    <li>{{item?.country}}</li>
-                    <li>{{item?.price}}</li>
+                    <li routerLink="{{item.id}}">{{item?.name}}</li>
+                    <li routerLink="{{item.id}}">{{item?.dsc}}</li>
+                    <li routerLink="{{item.id}}">{{item?.country}}</li>
+                    <li routerLink="{{item.id}}">{{item?.price}}</li>
                 </ul>
             </div>
         </div>

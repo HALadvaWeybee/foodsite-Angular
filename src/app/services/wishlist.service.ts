@@ -16,22 +16,26 @@ export class WishlistService {
   }
 
   addFoodToWishList(obj:any) {
+    console.log("wishlist", this.wishList);
+    
      if(this.wishList.length==0 || (this.wishList.indexOf(obj)==-1 && this.wishList.length!=0)) {
        this.wishList.push(obj);
-       this.productList.next(this.wishList);
        this.setInLocalStorage();   
+       this.productList.next(this.wishList);
+       
       } else {
         console.log("this is my double add method");
         
         this.deleteFromWishList(obj?.id);
       }
+      this.setInLocalStorage();
   }
   
   deleteFromWishList(id:string) {
     this.wishList = this.wishList.filter((ele:any) => ele.id!=id);
+    this.setInLocalStorage()
     this.productList.next(this.wishList);
     // if(this.wishList.length ==1) this.wishList = [];
-    this.setInLocalStorage()
   }
   getWishListCount() {
     return this.productList.asObservable();

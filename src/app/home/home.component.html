@@ -1,4 +1,4 @@
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExampleControls" class="carousel slide mt-3" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="assets/photos/slide1.jpg" class="d-block w-100" alt="...">
@@ -28,31 +28,31 @@
             <div>
                 <a routerLink="menu/burgers"><img
                         src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-                        class="img-thumbnail" alt="No image found"></a>
+                         alt="No image found"></a>
                 <h4>Burger</h4>
             </div>
             <div>
                 <a routerLink="menu/breads"><img
                         src="https://rakskitchen.net/wp-content/uploads/2016/01/garlic-bread-with-cheese.jpg"
-                        class="img-thumbnail" alt="No image found"></a>
+                        alt="No image found"></a>
                 <h4>Breads</h4>
             </div>
             <div>
                 <a routerLink="menu/sandwiches"><img
                         src="https://c.ndtvimg.com/2021-07/vckh316o_grilled-chicken-sandwich_625x300_28_July_21.jpg"
-                        class="img-thumbnail" alt="No image found"></a>
+                        alt="No image found"></a>
                 <h4>Sandwitch</h4>
             </div>
             <div>
                 <a routerLink="menu/pizzas"><img
                         src="https://timesofindia.indiatimes.com/thumb/msid-87930581,width-1200,height-900,resizemode-4/.jpg"
-                        class="img-thumbnail" alt="No image found"></a>
+                        alt="No image found"></a>
                 <h4>Pizza</h4>
             </div>
             <div>
                 <a routerLink="menu/drinks"><img
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyla30OIyPjJ61mmKw5IbSlkUVG1qckx_7RrjXbGsjLcAM8y2x3vzrZu3WhzjchBrG0FI&usqp=CAU"
-                        class="img-thumbnail" alt="No image found"></a>
+                        alt="No image found"></a>
                 <h4>Drinks</h4>
             </div>
         </div>
@@ -63,16 +63,26 @@
     <div class="d-flex flex-column">
         <div class="title text-center d-flex flex-row justify-content-between">
             <span id="recommended">Recommended for you</span>
-            <a routerLink="menu/bestfood"><button class="btn btn-warning">View All</button></a>
+            <a routerLink="menu/best-foods"><button class="btn btn-warning">View All</button></a>
+        </div>
+        <div *ngIf="cartMsg" class="d-flex flex-row justify-content-between">
+            <label for="one" class="alert-message">
+                <strong>Success</strong> Product added to cart successfully
+            </label>
+        </div>
+        <div  class="wish-msg" *ngIf="wishMsg" class="d-flex flex-row justify-content-between">
+            <label class="alert-message">
+                <strong>Success</strong> Product added to wishlist successfully
+            </label>
         </div>
         <div class="text-center grid mt-4">
             <div *ngFor="let item of recommendedForYou" >
-                <div class="food">
+                <div class="food">  
                     <div class="wc">
-                        <a><i class="fa-regular fa-heart" ></i></a>
-                        <a><i class="fa-solid fa-cart-shopping"></i></a>
+                        <a><i class="fa-regular fa-heart" (click)="addToWishList(item.id)"></i></a>
+                        <a><i class="fa-solid fa-cart-shopping" (click)="addToCartList(item.id)"></i></a>
                     </div> 
-                    <a routerLink="menu/best-foods/{{item.id}}"><img src={{item.img}} class="img-thumbnail" alt="No image found"></a>
+                    <a routerLink="menu/best-foods/{{item.id}}"><img src={{item.img}} alt="No image found"></a>
                     <p routerLink="menu/best-foods/{{item.id}}">{{item?.name}}</p>
                 </div>
             </div>
@@ -80,14 +90,34 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="text-center">
-        <span class="header">Your Resent</span>
-    </div>
-    <div class="d-flex flex-row justify-content-around mt-4">
-        <div *ngFor="let item of resentFood">
-            <a><img src={{item.img}} alt="No found"></a>
-            <p>{{item?.name}}</p>
+<div class="container resent">
+    <div class="d-flex flex-column">
+        <div class="text-center">
+            <span class="header">Your Resent</span>
+        </div>
+        <div *ngIf="cartMsg1" class="d-flex flex-row justify-content-between">
+            <label for="one" class="alert-message">
+                <strong>Success</strong> Product added to cart successfully
+            </label>
+        </div>
+        <div  class="wish-msg" *ngIf="wishMsg1" class="d-flex flex-row justify-content-between">
+            <label class="alert-message">
+                <strong>Success</strong> Product added to wishlist successfully
+            </label>
+        </div>
+        <div class="text-center grid mt-4">
+            <div *ngFor="let item of resentFood">
+                <div class="food">
+                    <div class="wc">
+                        <a><i class="fa-regular fa-heart" (click)="addToWishList1(item.id)"></i></a>
+                        <a><i class="fa-solid fa-cart-shopping" (click)="addToCartList1(item.id)"></i></a>
+                    </div> 
+                    <a routerLink="menu/our-foods/{{item.id}}"><img src={{item.img}} alt="No image found"></a>
+                    <p routerLink="menu/our-foods/{{item.id}}">{{item?.name}}</p>
+                </div>
+                <!-- <a><img src={{item.img}} alt="No found"></a>
+                <p>{{item?.name}}</p> -->
+            </div>
         </div>
     </div>
 </div>

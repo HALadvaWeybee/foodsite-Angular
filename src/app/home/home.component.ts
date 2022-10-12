@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CartService } from '../services/cart.service';
 import { HomeService } from '../services/home.service';
+import { WishlistService } from '../services/wishlist.service';
 import { JsLoader } from '../shared/js-loader';
 
 @Component({
@@ -9,21 +11,61 @@ import { JsLoader } from '../shared/js-loader';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private homeService: HomeService) { }
+  constructor(private homeService: HomeService, private wishService:WishlistService, private cartService:CartService) {
+    const _resentData = localStorage.getItem('resentFood');
+    if(_resentData)
+     this.resentFood = (JSON.parse(_resentData))
+   }
   data:any;
   recommendedForYou:any[] =[];
-  resentFood:any[] =[];
+  resentFood:any[]=[];
+  listOfFood:any[] =[];
   count:number = 0;
+  cartMsg:boolean = false;
+  wishMsg:boolean = false;
+  cartMsg1:boolean = false;
+  wishMsg1:boolean = false;
 
-  ngOnInit(): void {
-    this.resentFood = this.homeService.resentFood;
+  async ngOnInit() {
     JsLoader.sliderJs();
-    this.homeService.getBestForYou().subscribe((res) => {
-      this.data = res;
-      for(let i = 1; i <= 10; i++) {
-        this.recommendedForYou.push(this.data[i]);
-       }
-    })
+    this.data = await this.homeService.getBestForYou();
+    this.recommendedForYou = this.data; 
+  }
+
+  addToWishList(id: string) {
+    const index = this.recommendedForYou.findIndex((ele: any) => ele.id == id);
+     this.wishService.addFoodToWishList(this.recommendedForYou[index]);
+
+     this.wishMsg = true;
+    setTimeout(() => {
+      this.wishMsg = false;
+    }, 2000);
+  }
+
+  addToCartList(id: string) {
+    const index = this.recommendedForYou.findIndex((ele: any) => ele.id == id);
+    this.cartService.addFoodToCartList(this.recommendedForYou[index]);
+    this.cartMsg = true;
+    setTimeout(() => {
+      this.cartMsg = false;
+    }, 2000);
+  }
+  addToWishList1(id: string) {
+    const index = this.resentFood.findIndex((ele: any) => ele.id == id);
+     this.wishService.addFoodToWishList(this.resentFood[index]);
+     this.wishMsg1 = true;
+    setTimeout(() => {
+      this.wishMsg1 = false;
+    }, 2000);
+  }
+
+  addToCartList1(id: string) {
+    const index = this.resentFood.findIndex((ele: any) => ele.id == id);
+    this.cartService.addFoodToCartList(this.resentFood[index]);
+    this.cartMsg1 = true;
+    setTimeout(() => {
+      this.cartMsg1 = false;
+    }, 2000);
   }
 
 }

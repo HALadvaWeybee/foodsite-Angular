@@ -27,6 +27,7 @@ export class FoodinfoComponent implements OnInit {
     this.data = await this.homeService.getSpecifyFood(this.slug, this.id);
     this.printDetail = this.data[0];  
     if(this.homeService.resentFood.length < 5) this.homeService.resentFood.push(this.printDetail)
+    localStorage.setItem('resentFood', JSON.stringify([...this.homeService.resentFood]))
   }
 
   add() {
