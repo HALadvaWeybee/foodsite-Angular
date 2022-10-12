@@ -1,3 +1,13 @@
+<div *ngIf="cartMsg" class="d-flex flex-row justify-content-between">
+    <label for="one" class="alert-message">
+        <strong>Success</strong> Product added to cart successfully
+    </label>
+</div>
+<div  class="wish-msg" *ngIf="wishMsg" class="d-flex flex-row justify-content-between">
+    <label class="alert-message">
+        <strong>Success</strong> Product added to wishlist successfully
+    </label>
+</div>
 <div class="container">
     <div class="d-flex flex-wrap justify-content-center mt-3 search-field">
         <input type="text" #box class="search-box" placeholder="Search Food..."

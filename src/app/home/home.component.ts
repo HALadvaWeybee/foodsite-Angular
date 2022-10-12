@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
      this.wishMsg = true;
     setTimeout(() => {
       this.wishMsg = false;
-    }, 2000);
+    }, 1500);
   }
 
   addToCartList(id: string) {
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
     this.cartMsg = true;
     setTimeout(() => {
       this.cartMsg = false;
-    }, 2000);
+    }, 1500);
   }
   addToWishList1(id: string) {
     const index = this.resentFood.findIndex((ele: any) => ele.id == id);
@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
      this.wishMsg1 = true;
     setTimeout(() => {
       this.wishMsg1 = false;
-    }, 2000);
+    }, 1500);
   }
 
   addToCartList1(id: string) {
@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
     this.cartMsg1 = true;
     setTimeout(() => {
       this.cartMsg1 = false;
-    }, 2000);
+    }, 1500);
   }
 
 }

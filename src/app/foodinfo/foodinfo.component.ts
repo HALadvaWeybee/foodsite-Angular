@@ -55,7 +55,7 @@ export class FoodinfoComponent implements OnInit {
     this.buttonDisabled = true;
     setTimeout(() => {
       this.wishMsg = false;
-    }, 2000);
+    }, 1500);
   }
 
   addToCartList() {
@@ -63,7 +63,7 @@ export class FoodinfoComponent implements OnInit {
     this.cartMsg = true;
     setTimeout(() => {
       this.cartMsg = false;
-    }, 2000);
+    }, 1500);
   }
 
 }

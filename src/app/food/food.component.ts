@@ -18,7 +18,9 @@ export class FoodComponent implements OnInit {
   total: number = 0;
   search = this._route.snapshot.queryParamMap.get('search') || '';
   slug:any;
-  alertShow:boolean = false;
+  // alertShow:boolean = false;
+  cartMsg:boolean = false;
+  wishMsg:boolean = false;
 
   constructor(
     private homeService: HomeService,
@@ -121,11 +123,19 @@ export class FoodComponent implements OnInit {
   addToWishList(id: string) {
     const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
      this.wishService.addFoodToWishList(this.listOfFood[index]);
+     this.wishMsg = true;
+     setTimeout(() => {
+       this.wishMsg = false;
+     }, 1500);
   }
 
   addToCartList(id: string) {
     const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
     this.cartService.addFoodToCartList(this.listOfFood[index], 1);
+    this.cartMsg = true;
+    setTimeout(() => {
+      this.cartMsg = false;
+    }, 1500);
   }
 
   pageChangeEvent(event: number) {
