@@ -21,8 +21,14 @@
             <li><a class="dropdown-item" [routerLink]="['menu/drinks']" [queryParams]="{page:1}">Drink</a></li>
           </ul>
         </li>
+        <li class="mobile-v">
+          <a class="nav-link active me-3" routerLink="wishlist">wishlist</a>
+        </li>
+        <li class="mobile-v">
+          <a class="nav-link active me-3" routerLink="cart">cartlist</a>
+        </li>
       </ul>
-      <form class="d-flex" role="search">
+      <form class="cawi" role="search">
         <div>
           <a class="nav-link active me-3" routerLink="wishlist"><i class="fa-solid fa-bookmark"></i></a>
           <div class="notification wish">{{wishListCount}}</div>

@@ -26,8 +26,15 @@ export class FoodinfoComponent implements OnInit {
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.data = await this.homeService.getSpecifyFood(this.slug, this.id);
     this.printDetail = this.data[0];  
-    if(this.homeService.resentFood.length < 5) this.homeService.resentFood.push(this.printDetail)
-    localStorage.setItem('resentFood', JSON.stringify([...this.homeService.resentFood]))
+    if(this.homeService.resentFood.length < 5){
+      if(this.homeService.resentFood.length==0) {
+         this.homeService.resentFood.push(this.printDetail)
+      }
+      if(this.homeService.resentFood.findIndex(ele => ele.id==this.id)==-1 && this.homeService.resentFood.length != 0) {
+        this.homeService.resentFood.push(this.printDetail)
+      } 
+      localStorage.setItem('resentFood', JSON.stringify([...this.homeService.resentFood]))
+    } 
   }
 
   add() {

@@ -2,3 +2,27 @@ img {
     width: 500px;
     height: 412px;
 }
+
+.total {
+    text-align: right;
+    font-size: 30px;
+    span {
+        color: orange;
+        font-weight: 600;
+    }
+}
+.cart-detail {
+    text-align: left;
+    .add,.sub {
+            width: 38px;
+            height: 38px; 
+            border-radius: 50%;
+            border: none;
+            background-color: #cccccc;
+    }
+    .product-count {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    // font-size: 2px;
+}

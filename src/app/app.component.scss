@@ -17,3 +17,19 @@
     top: 2px;
     right: 19px;
 }
+
+.mobile-v {
+    display: none;
+}
+
+.cawi {
+    display: flex;
+}
+@media only screen and (max-width:991px) {
+    .cawi {
+        display: none;
+    }
+    .mobile-v {
+        display: block;
+    }
+}

@@ -1,4 +1,7 @@
 <div class="container menu">
+    <div class="total" *ngIf="foodList.length!=0">
+        total rupee: <span>${{total_amount}}</span>
+    </div>
     <div class="d-flex flex-column justify-content-around">
         <div class="d-flex justify-content-center flex-column mt-5" *ngIf="foodList.length==0">
             <div class="text-center">
@@ -13,14 +16,20 @@
                 <div>
                     <a routerLink="{{item.dsc}}" ><img src={{item.img}} alt="No image found"  onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'"></a>
                 </div>
-                <ul>
+                <ul class="cart-detail">
                     <li>{{item?.name}}</li>
                     <li>{{item?.dsc}}</li>
                     <li>{{item?.country}}</li>
                     <li>{{item?.price}}</li>
+                    <li>
+                        <button class="sub" (click)="removeFromCart(item?.price)">-</button>
+                        <span class="product-count">{{productCount}}</span>
+                        <button class="add" (click)="addIntoCart(item?.price)">+</button>
+                    </li>
                     <li><button class="btn btn-warning" (click)="deleteFromCart(item.id)">Delete</button></li>
                 </ul>
             </div>
         </div>
     </div>
+    
 </div>
