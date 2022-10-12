@@ -18,7 +18,7 @@ export class WishlistService {
   addFoodToWishList(obj:any) {
     console.log("wishlist", this.wishList);
     
-     if(this.wishList.length==0 || (this.wishList.indexOf(obj)==-1 && this.wishList.length!=0)) {
+     if(this.wishList.length==0 || (this.wishList.findIndex((ele) => ele.id == obj.id)==-1 && this.wishList.length!=0)) {
        this.wishList.push(obj);
        this.setInLocalStorage();   
        this.productList.next(this.wishList);

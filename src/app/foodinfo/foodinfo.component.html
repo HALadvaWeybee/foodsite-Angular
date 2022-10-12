@@ -17,7 +17,7 @@
                 </li>
                 <li>
                     <button  class="btn btn-warning" (click)="addToCartList()">Add to cart</button>&nbsp;
-                    <button class="btn btn-warning" (click)="addToWishList()">Add to WishList</button>
+                    <button class="btn btn-warning" (click)="addToWishList()" [disabled]="buttonDisabled">Add to WishList</button>
                 </li>
             </ul>
         </div>

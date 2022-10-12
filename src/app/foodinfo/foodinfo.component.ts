@@ -20,12 +20,16 @@ export class FoodinfoComponent implements OnInit {
   wishMsg:boolean = false;
   printDetail:any;
   productCount:number=1;
+  buttonDisabled:boolean = false;
 
   async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.data = await this.homeService.getSpecifyFood(this.slug, this.id);
     this.printDetail = this.data[0];  
+    if(this.wishService.wishList.findIndex((ele) => ele.id == this.printDetail.id)!=-1) {
+    this.buttonDisabled = true;
+    }
     if(this.homeService.resentFood.length < 5){
       if(this.homeService.resentFood.length==0) {
          this.homeService.resentFood.push(this.printDetail)
@@ -48,13 +52,14 @@ export class FoodinfoComponent implements OnInit {
   addToWishList() {
     this.wishService.addFoodToWishList(this.printDetail);
     this.wishMsg = true;
+    this.buttonDisabled = true;
     setTimeout(() => {
       this.wishMsg = false;
     }, 2000);
   }
 
   addToCartList() {
-    this.cartService.addFoodToCartList(this.printDetail);
+    this.cartService.addFoodToCartList(this.printDetail, this.productCount);
     this.cartMsg = true;
     setTimeout(() => {
       this.cartMsg = false;

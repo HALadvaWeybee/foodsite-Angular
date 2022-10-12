@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
 
   addToCartList(id: string) {
     const index = this.recommendedForYou.findIndex((ele: any) => ele.id == id);
-    this.cartService.addFoodToCartList(this.recommendedForYou[index]);
+    this.cartService.addFoodToCartList(this.recommendedForYou[index], 1);
     this.cartMsg = true;
     setTimeout(() => {
       this.cartMsg = false;
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
 
   addToCartList1(id: string) {
     const index = this.resentFood.findIndex((ele: any) => ele.id == id);
-    this.cartService.addFoodToCartList(this.resentFood[index]);
+    this.cartService.addFoodToCartList(this.resentFood[index], );
     this.cartMsg1 = true;
     setTimeout(() => {
       this.cartMsg1 = false;

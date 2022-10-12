@@ -15,13 +15,13 @@ export class CartService {
   productList = new BehaviorSubject<any>([]);
 
 
-  addFoodToCartList(obj:any) {
+  addFoodToCartList(obj:any, productCount:number) {
     console.log("cartlist", obj);
     
      if(this.cartList.length==0 || (this.cartList.findIndex((ele) => ele?.data?.id == obj.id)==-1 && this.cartList.length!=0)) {
        this.cartList.push({
          data:obj,
-         quantity:1
+         quantity:productCount
        });
        this.setInLocalStorage();   
        this.productList.next(this.cartList);

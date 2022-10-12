@@ -125,7 +125,7 @@ export class FoodComponent implements OnInit {
 
   addToCartList(id: string) {
     const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
-    this.cartService.addFoodToCartList(this.listOfFood[index]);
+    this.cartService.addFoodToCartList(this.listOfFood[index], 1);
   }
 
   pageChangeEvent(event: number) {
