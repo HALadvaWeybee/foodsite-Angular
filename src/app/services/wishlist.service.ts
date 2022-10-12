@@ -21,6 +21,8 @@ export class WishlistService {
        this.productList.next(this.wishList);
        this.setInLocalStorage();   
       } else {
+        console.log("this is my double add method");
+        
         this.deleteFromWishList(obj?.id);
       }
   }
@@ -28,7 +30,7 @@ export class WishlistService {
   deleteFromWishList(id:string) {
     this.wishList = this.wishList.filter((ele:any) => ele.id!=id);
     this.productList.next(this.wishList);
-    if(this.wishList.length ==1) this.wishList = [];
+    // if(this.wishList.length ==1) this.wishList = [];
     this.setInLocalStorage()
   }
   getWishListCount() {

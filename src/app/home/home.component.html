@@ -72,8 +72,8 @@
                         <a><i class="fa-regular fa-heart" ></i></a>
                         <a><i class="fa-solid fa-cart-shopping"></i></a>
                     </div> 
-                    <a routerLink="menu/best-foods/{{item.dsc}}"><img src={{item.img}} class="img-thumbnail" alt="No image found"></a>
-                    <p>{{item?.name}}</p>
+                    <a routerLink="menu/best-foods/{{item.id}}"><img src={{item.img}} class="img-thumbnail" alt="No image found"></a>
+                    <p routerLink="menu/best-foods/{{item.id}}">{{item?.name}}</p>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
     </div>
     <div class="d-flex flex-row justify-content-around mt-4">
         <div *ngFor="let item of resentFood">
-            <img src={{item.img}} alt="No found">
+            <a><img src={{item.img}} alt="No found"></a>
             <p>{{item?.name}}</p>
         </div>
     </div>

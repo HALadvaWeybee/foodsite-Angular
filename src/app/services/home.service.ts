@@ -6,7 +6,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomeService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+     console.log("i am in home service");
+  }
   
   data:any;
   burgers:any[] = [];
@@ -22,7 +24,14 @@ export class HomeService {
   getBestForYou(){
     return this.http.get('https://ig-food-menus.herokuapp.com/best-foods');
   }
- 
+  
+  async getSpecifyFood(category:string,id:string) {
+     await this.http.get('https://ig-food-menus.herokuapp.com/'+category+'?id=' +id).toPromise().then((res) =>{
+        this.data = res;
+     })
+     return this.data;
+  }
+
   async getAllbestFood(page:number) {
     await this.http.get('https://ig-food-menus.herokuapp.com/best-foods?_limit=8&_page=' + page).toPromise().then((res) => {
          this.data = res;
@@ -32,10 +41,10 @@ export class HomeService {
   }
   
   async getAllBurgers(page:number) {
-    await this.http.get('https://ig-food-menus.herokuapp.com/burgers?_limit=8&_page=' + page).toPromise().then((res) => {
-         this.data = res;
-         this.burgers = this.data;
-     })
+       await this.http.get('https://ig-food-menus.herokuapp.com/burgers?_limit=8&_page=' + page).toPromise().then((res) => {
+           this.data = res;
+           this.burgers = this.data;
+       })
      return this.burgers;
   }
 

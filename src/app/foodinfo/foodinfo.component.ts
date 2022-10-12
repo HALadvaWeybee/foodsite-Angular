@@ -12,7 +12,7 @@ import { WishlistService } from 'src/app/services/wishlist.service';
 export class FoodinfoComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private homeService:HomeService, private wishService: WishlistService, private cartService:CartService) { }
-  dsc:any;
+  id:any;
   slug:any;
   data:any[] =[];
   index:number = -1;
@@ -22,34 +22,11 @@ export class FoodinfoComponent implements OnInit {
   productCount:number=1;
 
   async ngOnInit() {
-    this.dsc = this.route.snapshot.paramMap.get('dsc');
+    this.id = this.route.snapshot.paramMap.get('id');
     this.slug = this.route.snapshot.paramMap.get('slug');
-    console.log(this.dsc, this.slug);
-    
-    switch(this.slug) {
-      case 'burger':
-        // this.data = await this.homeService.getAllBurgers();
-        break;
-      case 'bread':
-        // this.data = await this.homeService.getAllBreads();
-        break;
-      case 'sandwitch':
-        // this.data = await this.homeService.getAllSandwitchs();
-        break;
-      case 'pizza':
-        // this.data = await this.homeService.getAllPizzas();
-        break;  
-      case 'drink':
-        // this.data = await this.homeService.getAllDrinks();
-        break;
-      case 'bestfood':
-        // this.data = await this.homeService.getAllbestFood();
-        break;
-    }
-    this.index = this.data.findIndex((ele: any) => ele.dsc == this.dsc);
-    this.printDetail = this.data[this.index];
+    this.data = await this.homeService.getSpecifyFood(this.slug, this.id);
+    this.printDetail = this.data[0];  
     if(this.homeService.resentFood.length < 5) this.homeService.resentFood.push(this.printDetail)
-    console.log(this.printDetail);
   }
 
   add() {

@@ -17,7 +17,12 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
      this._wishService.getWishListCount().subscribe((res) => {
-        this.wishListCount = res.length || ((JSON.parse(localStorage.getItem('wishList')|| ''))).length;
+       console.log("res.length", res.length);
+       if(res.length ==0) {
+          this.wishListCount = res.length;
+       } else {
+         this.wishListCount = res.length || ((JSON.parse(localStorage.getItem('wishList')|| '[]'))).length;
+       }
         // this.wishListCount = res.length;
      });
      this._cartService.getCartListCount().subscribe((res) => {

@@ -24,7 +24,7 @@ const routes: Routes = [
     component:FoodComponent,  
   },
   {
-    path:'menu/:slug/:dsc',
+    path:'menu/:slug/:id',
     component:FoodinfoComponent
   }
 ];

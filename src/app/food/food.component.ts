@@ -37,6 +37,7 @@ export class FoodComponent implements OnInit {
      this.search = params['search'] ? params['search'] :'';
      console.log("search is", this.search);
      console.log("page is", this.page);
+     this.loadData();
    })
   }
   
@@ -92,29 +93,29 @@ export class FoodComponent implements OnInit {
     // this.total = 60;
   }
 
-  async searchInput(box: any) {
-    // this._router.navigate([], {
-    //   relativeTo:this._route,
-    //    queryParams: {
-    //     page:this.page==0 ? null:this.page,
-    //     search:box.value
-    //   },
-    //   queryParamsHandling:'merge'
-    // })
-    this.search = box.value;
-    this._router.navigate(['menu/our-foods'],
-      {
-        // relativeTo:this._route,
-        queryParams: {
-          page: Number(this._route.snapshot.queryParamMap.get('page')) || 1,
-          search:this.search==''?null:this.search,
-        },
-        queryParamsHandling:'merge'
-      } 
-    )
-    console.log("this box", box.value);
-    this.page = 1;
-    await this.loadData();
+  searchInput(box: any) {
+    if(!(+box.value)) {
+      this.search = box.value;
+      this.page = 1;
+      this._router.navigate(['menu/our-foods'],
+        {
+          queryParams: {
+            page: this.page,
+            search:this.search==''?null:this.search,
+          },
+          queryParamsHandling:'merge'
+        } 
+      )
+    }
+  }
+
+  filterProduct(select:any) {
+    console.log("i am called");
+    if(select.value == 'price' || select.value == 'rprice')
+     select.value == 'price'? this.listOfFood.sort((a, b) => a.price > b.price ? 1 : -1) : this.listOfFood.sort((a, b) => a.price > b.price ? -1 : 1);
+    else
+     select.value == 'rate'? this.listOfFood.sort((a, b) => a.rate > b.rate ? 1 : -1) : this.listOfFood.sort((a, b) => a.rate > b.rate ? -1 : 1); 
+    // this.total = this.shownFood.length;
   }
 
   addToWishList(id: string) {
@@ -129,18 +130,20 @@ export class FoodComponent implements OnInit {
 
   pageChangeEvent(event: number) {
     this.page = event;
-    if(this._route.snapshot.paramMap.get('slug')!='our-foods') {
+    // if(this._route.snapshot.paramMap.get('slug')!='our-foods') {
       this.loadData();
       console.log("you are enter");
-    }
-    this._router.navigate([], {
-      relativeTo: this._route,
-      queryParams: {
-        page: this.page===0 ? null :this.page,
-        search:this.search==''?null:this.search,
-      },
-      queryParamsHandling:'merge'
-    })
+    // }
+
+      this._router.navigate([], {
+        relativeTo: this._route,
+        queryParams: {
+          page: this.page===0 ? null :this.page,
+          search:this.search==''?null:this.search,
+        },
+        queryParamsHandling:'merge'
+      })
+  
   }
 }
 
@@ -173,3 +176,15 @@ export class FoodComponent implements OnInit {
 //     ele.name.toLowerCase().includes(box.value.toLowerCase())
 //   );
 // }
+
+//  if (select.value == '<100') {
+//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price < 100);
+//  } else if (select.value == '>100') {
+//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price > 100);
+//  } else if (select.value == '>200') {
+//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price > 200);
+//  } else if (select.value == '<200') {
+//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price < 200);
+//  } else {
+//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price < 100);
+//  }

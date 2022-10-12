@@ -2,12 +2,12 @@
     <div class="d-flex flex-wrap justify-content-center mt-3 search-field">
         <input type="text" #box class="search-box" placeholder="Search Food..."
             (keydown.enter)="searchInput(box)">
-        <select name="filter" #select class="select-box" (change)="searchInput(box)">
+        <select name="filter" #select class="select-box" (change)="filterProduct(select)">
             <option value="" default>--filter--</option>
-            <option value=">100">above 100</option>
-            <option value="<100">below 100</option>
-            <option value=">200">above 200</option>
-            <option value="<200">below 200</option>
+            <option value="price">Price: Low to High</option>
+            <option value="rprice">Price: Hight to Low</option>
+            <option value="rate">Rate: Low to High</option>
+            <option value="rrate">Rate: Hight to Low</option>
         </select>
 
     </div>
@@ -22,7 +22,7 @@
                         <a><i class="fa-regular fa-heart" (click)="addToWishList(item.id)"></i></a>
                         <a><i class="fa-solid fa-cart-shopping" (click)="addToCartList(item.id)"></i></a>
                     </div> 
-                    <a routerLink="{{item.dsc}}"><img  src={{item.img}} alt="No image found"
+                    <a routerLink="{{item.id}}"><img  src={{item.img}} alt="No image found"
                             onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'"></a>
                 </div>
                 <ul>
