@@ -14,7 +14,7 @@
         <div class="text-center grid">
             <div *ngFor="let item of foodList; let i = index;">
                 <div>
-                    <a routerLink="{{item.data.dsc}}" ><img src={{item?.data?.img}} alt="No image found"  onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'"></a>
+                    <img src={{item?.data?.img}} alt="No image found"  onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'">
                 </div>
                 <ul class="cart-detail">
                     <li>{{item?.data?.name}}</li>
