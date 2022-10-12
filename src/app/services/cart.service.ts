@@ -14,24 +14,26 @@ export class CartService {
   }
   productList = new BehaviorSubject<any>([]);
 
+
   addFoodToCartList(obj:any) {
-    console.log("wishlist", this.cartList);
+    console.log("cartlist", obj);
     
-     if(this.cartList.length==0 || (this.cartList.indexOf(obj)==-1 && this.cartList.length!=0)) {
-       this.cartList.push(obj);
+     if(this.cartList.length==0 || (this.cartList.findIndex((ele) => ele?.data?.id == obj.id)==-1 && this.cartList.length!=0)) {
+       this.cartList.push({
+         data:obj,
+         quantity:1
+       });
        this.setInLocalStorage();   
        this.productList.next(this.cartList);
        
-      } else {
-        console.log("this is my double add method");
-        
+      } else {        
         this.deleteFromCartList(obj?.id);
       }
       this.setInLocalStorage();
   }
   
   deleteFromCartList(id:string) {
-    this.cartList = this.cartList.filter((ele:any) => ele.id!=id);
+    this.cartList = this.cartList.filter((ele:any) => ele?.data?.id!=id);
     this.setInLocalStorage()
     this.productList.next(this.cartList);
     // if(this.wishList.length ==1) this.wishList = [];

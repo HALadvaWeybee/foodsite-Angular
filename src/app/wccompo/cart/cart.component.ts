@@ -13,25 +13,33 @@ export class CartComponent implements OnInit {
 
   foodList:any[] =[];
   ngOnInit(): void {
-     this.foodList = this.cartService.cartList;
+    //  if(localStorage.getItem('cartList')) {
+        // this.foodList = JSON.parse(localStorage.getItem('cartList') || '');
+    //  } else {
+        this.foodList = [...this.cartService.cartList];
+    //  }
      this.foodList.forEach(ele => {
-       this.total_amount+=ele.price;
+        this.total_amount += (ele?.data?.price * ele.quantity);
      })
   }
 
   deleteFromCart(id:string) {
-    this.foodList = this.foodList.filter((ele:any) => ele.id!=id);
+    this.total_amount -= (this.foodList.filter((ele:any) => ele?.data?.id==id)[0].data?.price * this.foodList.filter((ele:any) => ele?.data?.id==id)[0].quantity)
+    this.foodList = this.foodList.filter((ele:any) => ele?.data?.id!=id);
     this.cartService.deleteFromCartList(id);
+    localStorage.setItem('cartList', JSON.stringify([...this.foodList]));
   }
    
-  addIntoCart(price:number) {
-    this.productCount++;
-    this.total_amount += (price);
+  addIntoCart(obj:any) {
+    this.foodList.filter(ele => ele?.data?.id == obj.id)[0].quantity++;
+    this.total_amount += (this.foodList.filter(ele => ele?.data?.id == obj.id)[0]?.data?.price)
+    localStorage.setItem('cartList', JSON.stringify([...this.foodList]));
   }
-  removeFromCart(price:number) {
-    if(this.productCount>1) {
-      this.productCount--;
-      this.total_amount -= (price);
+  removeFromCart(obj:any) {
+    if(this.foodList.filter(ele => ele?.data?.id == obj.id)[0].quantity > 1) {
+      this.foodList.filter(ele => ele?.data?.id == obj.id)[0].quantity--;
+      this.total_amount -= (this.foodList.filter(ele => ele?.data?.id == obj.id)[0]?.data?.price);
     }
+    localStorage.setItem('cartList', JSON.stringify([...this.foodList]));
   }
 }

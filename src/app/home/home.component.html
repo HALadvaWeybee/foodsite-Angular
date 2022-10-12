@@ -90,9 +90,9 @@
     </div>
 </div>
 
-<div class="container resent">
+<div class="container resent" *ngIf="resentFood.length!=0">
     <div class="d-flex flex-column">
-        <div class="text-center">
+        <div class="text-center" >
             <span class="header">Your Resent</span>
         </div>
         <div *ngIf="cartMsg1" class="d-flex flex-row justify-content-between">
