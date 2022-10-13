@@ -69,9 +69,9 @@ p {
    .food {
      transition: transform .2s;
    
-    img:hover {
-      border: 3px solid orange;
-    }
+    // img:hover {
+    //   border: 3px solid orange;
+    // }
    }
    .food:hover {
     transform: scale(1.05);

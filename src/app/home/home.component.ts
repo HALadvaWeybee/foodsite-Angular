@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
   addToWishList(id: string) {
     const index = this.recommendedForYou.findIndex((ele: any) => ele.id == id);
      this.wishService.addFoodToWishList(this.recommendedForYou[index]);
-    
+     this.recommendedForYou[index].isInWishList = !this.recommendedForYou[index].isInWishList;
      this.wishMsg = true;
     setTimeout(() => {
       this.wishMsg = false;
