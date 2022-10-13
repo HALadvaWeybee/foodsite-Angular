@@ -7,6 +7,10 @@ export class JsLoader {
       slidesPerView: 1,
       spaceBetween: 25,
       loop: true,
+      autoplay: 
+    {
+      delay: 2000,
+    },
       centerSlide: 'true',
       fade: 'true',
       grabCursor: 'true',

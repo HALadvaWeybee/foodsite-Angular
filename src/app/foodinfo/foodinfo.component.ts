@@ -26,7 +26,7 @@ export class FoodinfoComponent implements OnInit {
   printDetail:any;
   productCount:number=1;
   buttonDisabled:boolean = false;
-  isLoading = true;
+  isLoading = true; 
 
   async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -38,13 +38,18 @@ export class FoodinfoComponent implements OnInit {
     if(this.wishService.wishList.findIndex((ele) => ele.id == this.printDetail.id)!=-1) {
     this.buttonDisabled = true;
     }
-    if(this.homeService.resentFood.length < 5){
+    if(this.homeService.resentFood.length < 5 || this.homeService.resentFood.findIndex(ele => ele.id == this.printDetail.id)!=-1){
       if(this.homeService.resentFood.length==0) {
          this.homeService.resentFood.unshift(this.printDetail)
       }
-      if(this.homeService.resentFood.findIndex(ele => ele.id==this.id)==-1 && this.homeService.resentFood.length != 0) {
-        this.homeService.resentFood.unshift(this.printDetail)
-      } 
+      else {
+        if(this.homeService.resentFood.findIndex(ele => ele.id == this.printDetail.id)==-1) {
+          this.homeService.resentFood.unshift(this.printDetail);
+        } else {
+          this.homeService.resentFood = this.homeService.resentFood.filter(ele => ele.id != this.printDetail.id);
+          this.homeService.resentFood.unshift(this.printDetail);
+        }
+      }
       localStorage.setItem('resentFood', JSON.stringify([...this.homeService.resentFood]))
     } 
   }

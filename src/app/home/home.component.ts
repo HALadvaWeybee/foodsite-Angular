@@ -15,6 +15,10 @@ export class HomeComponent implements OnInit {
     const _resentData = localStorage.getItem('resentFood');
     if(_resentData)
      this.resentFood = (JSON.parse(_resentData))
+     this.resentFood.forEach(ele  => {
+      this.wishService.wishList.findIndex(e => e.id == ele.id)==-1 ? ele.isInWishList= false:ele.isInWishList= true;
+      this.cartService.cartList.findIndex(e => e.id == ele.id)==-1 ? ele.isInCartList= false:ele.isInCartList= true;
+    })
    }
   data:any;
   recommendedForYou:any[] =[];
@@ -32,6 +36,7 @@ export class HomeComponent implements OnInit {
     this.recommendedForYou = this.data;
     this.recommendedForYou.forEach(ele  => {
       this.wishService.wishList.findIndex(e => e.id == ele.id)==-1 ? ele.isInWishList= false:ele.isInWishList= true;
+      this.cartService.cartList.findIndex(e => e.id == ele.id)==-1 ? ele.isInCartList= false:ele.isInCartList= true;
     })
   }
 
@@ -48,6 +53,7 @@ export class HomeComponent implements OnInit {
   addToCartList(id: string) {
     const index = this.recommendedForYou.findIndex((ele: any) => ele.id == id);
     this.cartService.addFoodToCartList(this.recommendedForYou[index], 1);
+    this.recommendedForYou[index].isInCartList = !this.recommendedForYou[index].isInCartList;
     this.cartMsg = true;
     setTimeout(() => {
       this.cartMsg = false;
@@ -56,6 +62,7 @@ export class HomeComponent implements OnInit {
   addToWishList1(id: string) {
     const index = this.resentFood.findIndex((ele: any) => ele.id == id);
      this.wishService.addFoodToWishList(this.resentFood[index]);
+     this.resentFood[index].isInWishList = !this.resentFood[index].isInWishList;
      this.wishMsg1 = true;
     setTimeout(() => {
       this.wishMsg1 = false;
@@ -65,6 +72,7 @@ export class HomeComponent implements OnInit {
   addToCartList1(id: string) {
     const index = this.resentFood.findIndex((ele: any) => ele.id == id);
     this.cartService.addFoodToCartList(this.resentFood[index], 1);
+    this.resentFood[index].isInCartList = !this.resentFood[index].isInCartList; 
     this.cartMsg1 = true;
     setTimeout(() => {
       this.cartMsg1 = false;

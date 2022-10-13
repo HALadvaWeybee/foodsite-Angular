@@ -2,7 +2,7 @@
     <div class="dot"></div>
     <div class="dot"></div>
     <div class="dot"></div>
-    <div class="dot"></div>
+    <div class="dot"></div> 
     <div class="dot"></div>
 </div>
 <div class="container" *ngIf="!isLoading">
@@ -29,7 +29,6 @@
                 </li>
                 <li>
                     <button  class="btn btn-warning" (click)="addToCartList()">{{message[+isProductInCart]}}</button>&nbsp;
-                    <!-- <button  class="btn btn-warning" (click)="addToCartList()" *ngIf="!isProductInCart">Remove From Cart</button>&nbsp; -->
                     <button class="btn btn-warning" (click)="addToWishList()" [disabled]="buttonDisabled">Add to WishList</button>
                 </li>
             </ul>

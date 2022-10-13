@@ -23,7 +23,7 @@ export class FoodComponent implements OnInit {
   cartMsg:boolean = false;
   wishMsg:boolean = false;
   productPerPageArr = [8 , 12, 16, 20];
-  productPerPage:number = 8;
+  productPerPage:number = Number(this._route.snapshot.queryParamMap.get('limit')) ?? 8;
   isLoading=true;
 
   constructor(
@@ -41,6 +41,7 @@ export class FoodComponent implements OnInit {
    })
    this._route.queryParams.subscribe((params: Params):void => {
      this.page = +params['page'] ? +params['page'] : 1;
+     this.productPerPage = +params['limit'] ? +params['limit'] : 8;
      this.search = params['search'] ? params['search'] :'';
      console.log("search is", this.search);
      console.log("page is", this.page);
@@ -54,6 +55,7 @@ export class FoodComponent implements OnInit {
       relativeTo: this._route,
       queryParams: {
         page: Number(this._route.snapshot.queryParamMap.get('page')) || 1,
+        limit: Number(this._route.snapshot.queryParamMap.get('limit')) || 8,
         search:this._route.snapshot.queryParamMap.get('search')==''?null: this._route.snapshot.queryParamMap.get('search'),
       },
       queryParamsHandling:'merge'
@@ -63,6 +65,16 @@ export class FoodComponent implements OnInit {
   itemPerPage(event:any) {
     this.productPerPage = event.target.value;
     this.page = 1;
+    this._router.navigate(['menu/our-foods'],
+        {
+          queryParams: {
+            page: this.page,
+            limit:this.productPerPage,
+            search:this.search==''?null:this.search,
+          }, 
+          queryParamsHandling:'merge'
+        } 
+      )
     this.loadData();
   }
   async loadData() {
@@ -82,6 +94,7 @@ export class FoodComponent implements OnInit {
        }
        this.listOfFood.forEach(ele => {
           this.wishService.wishList.findIndex(e => e.id == ele.id)==-1 ? ele.isInWishList= false:ele.isInWishList= true;
+          this.cartService.cartList.findIndex(e => e.id == ele.id)==-1 ? ele.isInCartList= false:ele.isInCartList= true;
        })
      this.shownFood = this.listOfFood;
      
@@ -95,8 +108,9 @@ export class FoodComponent implements OnInit {
         {
           queryParams: {
             page: this.page,
+            limit:this.productPerPage,
             search:this.search==''?null:this.search,
-          },
+          }, 
           queryParamsHandling:'merge'
         } 
       )
@@ -126,6 +140,7 @@ export class FoodComponent implements OnInit {
   addToCartList(id: string) {
     const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
     this.cartService.addFoodToCartList(this.listOfFood[index], 1);
+    this.listOfFood[index].isInCartList = !this.listOfFood[index].isInCartList;
     this.cartMsg = true;
     setTimeout(() => {
       this.cartMsg = false;
@@ -143,6 +158,7 @@ export class FoodComponent implements OnInit {
         relativeTo: this._route,
         queryParams: {
           page: this.page===0 ? null :this.page,
+          limit:this.productPerPage===0 ? null : this.productPerPage,
           search:this.search==''?null:this.search,
         },
         queryParamsHandling:'merge'
