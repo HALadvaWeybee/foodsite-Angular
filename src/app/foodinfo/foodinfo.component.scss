@@ -1,6 +1,21 @@
+
+
 .container {
     margin-top: 20px;
      
+    ul {
+      list-style-type: none;
+      li {
+        font-size: 20px;
+      }
+      li:first-child {
+        font-size: 30px;
+        font-weight: 500;
+      }
+      li:nth-child(5) {
+        margin-bottom: 10px;
+      }
+    }
     img {
       border-radius: 25px;
     }

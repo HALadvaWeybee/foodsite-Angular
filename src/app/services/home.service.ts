@@ -8,6 +8,10 @@ export class HomeService {
 
   constructor(private http: HttpClient) { 
      console.log("i am in home service");
+     const data = localStorage.getItem('resentFood');
+     if(data) {
+      this.resentFood = JSON.parse(data);
+     }
   }
   
   data:any;

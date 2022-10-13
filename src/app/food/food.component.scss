@@ -16,7 +16,55 @@
   }
   
 }
+.menu {
+    margin-top: 20px;
+    ul {
+      list-style-type: none;
+      text-align: left;
 
+      li:first-child {
+        font-size: 20px;
+      }
+
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: 235px 235px 235px 235px;
+        // grid-template-columns: auto auto auto auto;
+        column-gap: 50px;
+    
+        .wc {
+            display: none;
+            position: absolute;
+            cursor: pointer;
+
+
+            .fa-regular {
+                margin-right: 5px;
+            }
+            i {
+                font-size: 35px;
+            }
+            a {
+                color: orange;
+            }
+            a:first-child {
+              margin-left:30px;
+            }
+        }
+  
+        .food:hover {
+            .wc {
+                display: block;
+            }
+        }
+        img {
+            width: 200px;
+            height: 200px;
+            border-radius: 25px;
+        }
+    }
+  }
 
 .food {
   border-radius: 20px;
