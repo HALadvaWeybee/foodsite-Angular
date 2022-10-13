@@ -1,3 +1,10 @@
+<div class="loading" *ngIf="isLoading">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+</div>
 <div *ngIf="cartMsg" class="d-flex flex-row justify-content-between">
     <label for="one" class="alert-message">
         <strong>Success</strong> Product added to cart successfully
@@ -8,16 +15,21 @@
         <strong>Success</strong> Product added to wishlist successfully
     </label>
 </div>
-<div class="container">
+<div class="container" *ngIf="!isLoading">
     <div class="d-flex flex-wrap justify-content-center mt-3 search-field">
-        <input type="text" #box class="search-box" placeholder="Search Food..."
+        <input type="text" #box class="search-box" placeholder="Search Food..." value="{{search}}" pattern="[A-Za-z]"
             (keydown.enter)="searchInput(box)">
         <select name="filter" #select class="select-box" (change)="filterProduct(select)">
-            <option value="" default>--filter--</option>
+            <option value="" default>--Sort--</option>
             <option value="price">Price: Low to High</option>
             <option value="rprice">Price: Hight to Low</option>
             <option value="rate">Rate: Low to High</option>
             <option value="rrate">Rate: Hight to Low</option>
+        </select>
+        <select name="filter" #select class="select-box" (change)="itemPerPage($event)">
+            <option *ngFor="let item of productPerPageArr">
+                {{item}}
+            </option>
         </select>
 
     </div>
@@ -26,12 +38,13 @@
     <div class="d-flex justify-content-around">
         <div class="text-center grid">
             <div
-                *ngFor="let item of listOfFood | paginate: { itemsPerPage: 8, currentPage: page, totalItems: total }; let i = index;">
+                *ngFor="let item of listOfFood | paginate: { itemsPerPage: productPerPage, currentPage: page, totalItems: total }; let i = index;">
                 <div class="food">
                     <div class="wc">
-                        <a><i class="fa-regular fa-heart" (click)="addToWishList(item.id)"></i></a>
+                        <a><i class="fa-solid fa-heart" (click)="addToWishList(item.id)" *ngIf="item?.isInWishList"></i></a>
+                        <a><i class="fa-regular fa-heart" (click)="addToWishList(item.id)" *ngIf="!item?.isInWishList"></i></a>
                         <a><i class="fa-solid fa-cart-shopping" (click)="addToCartList(item.id)"></i></a>
-                    </div> 
+                        </div> 
                     <a routerLink="{{item.id}}"><img  src={{item.img}} alt="No image found"
                             onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'"></a>
                 </div>

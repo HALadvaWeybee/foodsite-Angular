@@ -29,13 +29,16 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     JsLoader.sliderJs();
     this.data = await this.homeService.getBestForYou();
-    this.recommendedForYou = this.data; 
+    this.recommendedForYou = this.data;
+    this.recommendedForYou.forEach(ele  => {
+      this.wishService.wishList.findIndex(e => e.id == ele.id)==-1 ? ele.isInWishList= false:ele.isInWishList= true;
+    })
   }
 
   addToWishList(id: string) {
     const index = this.recommendedForYou.findIndex((ele: any) => ele.id == id);
      this.wishService.addFoodToWishList(this.recommendedForYou[index]);
-
+    
      this.wishMsg = true;
     setTimeout(() => {
       this.wishMsg = false;

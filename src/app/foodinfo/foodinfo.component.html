@@ -1,4 +1,11 @@
-<div class="container">
+<div class="loading" *ngIf="isLoading">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+</div>
+<div class="container" *ngIf="!isLoading">
     <div class="d-flex flex-row">
         <div class="detail-image d-flex flex-column">
             <img src={{printDetail?.img}} alt="No Image Found" width="450" height="450"
@@ -8,15 +15,21 @@
             <ul>
                 <li>{{printDetail?.name}}</li>
                 <li>{{printDetail?.dsc}}</li>
-                <li>{{printDetail?.price}}$</li>
-                <li>{{printDetail?.rate}}<i class="fa-solid fa-star" style="color: orange;"></i></li>
+                <li>${{printDetail?.price}}</li>
+                <li>
+                    <span *ngFor="let item of [].constructor(5) let i = index;">
+                        <i *ngIf="i+1 <= printDetail?.rate" class="fa-solid fa-star" style="color: orange;"></i>
+                        <i *ngIf="i+1 > printDetail?.rate" class="fa-regular fa-star" style="color: orange;"></i>
+                    </span>
+                </li>
                 <li> 
                     <button class="sub" (click)="sub()">-</button>
                     <span class="product-count">{{productCount}}</span>
                     <button class="add" (click)="add()">+</button>
                 </li>
                 <li>
-                    <button  class="btn btn-warning" (click)="addToCartList()">Add to cart</button>&nbsp;
+                    <button  class="btn btn-warning" (click)="addToCartList()">{{message[+isProductInCart]}}</button>&nbsp;
+                    <!-- <button  class="btn btn-warning" (click)="addToCartList()" *ngIf="!isProductInCart">Remove From Cart</button>&nbsp; -->
                     <button class="btn btn-warning" (click)="addToWishList()" [disabled]="buttonDisabled">Add to WishList</button>
                 </li>
             </ul>

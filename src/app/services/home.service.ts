@@ -6,6 +6,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomeService {
 
+   data:any;
+   foodList:any[] = [];
+   resentFood:any[] =[];
+   ourFoods:any[] =[];
+
   constructor(private http: HttpClient) { 
      console.log("i am in home service");
      const data = localStorage.getItem('resentFood');
@@ -14,16 +19,6 @@ export class HomeService {
      }
   }
   
-  data:any;
-  burgers:any[] = [];
-  breads:any[] =[];
-  pizzas:any[] =[];
-  sandwitchs:any[] =[];
-  drinks:any[]=[];
-  bestFood:any[] =[];
-  resentFood:any[] =[];
-  ourFoods:any[] =[];
-  pagination:any;
 
   async getBestForYou(){
     await this.http.get('https://ig-food-menus.herokuapp.com/best-foods?_limit=10').toPromise().then((res) => {
@@ -39,54 +34,14 @@ export class HomeService {
      return this.data;
   }
 
-  async getAllbestFood(page:number) {
-    await this.http.get('https://ig-food-menus.herokuapp.com/best-foods?_limit=8&_page=' + page).toPromise().then((res) => {
-         this.data = res;
-         this.bestFood = this.data;
-      })
-    return this.bestFood;
-  }
-  
-  async getAllBurgers(page:number) {
-       await this.http.get('https://ig-food-menus.herokuapp.com/burgers?_limit=8&_page=' + page).toPromise().then((res) => {
+  async getAllFoodWishCategory(category:string, page:number, productPerPage:number) {
+       await this.http.get('https://ig-food-menus.herokuapp.com/'+category+'?_limit='+productPerPage+'&_page=' + page).toPromise().then((res) => {
            this.data = res;
-           this.burgers = this.data;
+           this.foodList = this.data;
        })
-     return this.burgers;
+     return this.data;
   }
 
-  async getAllBreads(page:number) {
-      await this.http.get('https://ig-food-menus.herokuapp.com/breads?_limit=8&_page=' + page).toPromise().then((res) => {
-         this.data = res;
-         this.breads = this.data;
-      })
-    return this.breads;
-  }
-
-  async getAllSandwitchs(page:number) {
-      await this.http.get('https://ig-food-menus.herokuapp.com/sandwiches?_limit=8&_page=' + page).toPromise().then((res) => {
-         this.data = res;
-         this.sandwitchs = this.data;
-      })
-    return this.sandwitchs;
-  }
-
-  async getAllPizzas(page:number) {
-      await this.http.get('https://ig-food-menus.herokuapp.com/pizzas?_limit=8&_page=' + page).toPromise().then((res) => {
-         this.data = res;
-         this.pizzas = this.data;
-      })
-    return this.pizzas;
-  }
-
-  async getAllDrinks(page:number) {
-      await this.http.get('https://ig-food-menus.herokuapp.com/drinks?_limit=8&_page=' + page).toPromise().then((res) => {
-         this.data = res;
-         this.drinks = this.data;
-      })
-    return this.drinks;
-  }
-   
   async getAllOurFood(search:string) {
     await this.http.get('https://ig-food-menus.herokuapp.com/our-foods?name_like='+ search).toPromise().then((res) => {
       this.data = res;

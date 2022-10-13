@@ -3,6 +3,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { HomeService } from 'src/app/services/home.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-food',
@@ -21,18 +22,22 @@ export class FoodComponent implements OnInit {
   // alertShow:boolean = false;
   cartMsg:boolean = false;
   wishMsg:boolean = false;
+  productPerPageArr = [8 , 12, 16, 20];
+  productPerPage:number = 8;
+  isLoading=true;
 
   constructor(
     private homeService: HomeService,
     private wishService: WishlistService,
     private cartService: CartService,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private title:Title
   ) {
     this._route.paramMap.subscribe((par) => {
       this.loadData();
       console.log("router paramap called");
-      
+      this.title.setTitle(par.get('slug')); 
    })
    this._route.queryParams.subscribe((params: Params):void => {
      this.page = +params['page'] ? +params['page'] : 1;
@@ -41,6 +46,7 @@ export class FoodComponent implements OnInit {
      console.log("page is", this.page);
      this.loadData();
    })
+
   }
   
   ngOnInit():void {
@@ -53,46 +59,32 @@ export class FoodComponent implements OnInit {
       queryParamsHandling:'merge'
     })
   }
-
+  
+  itemPerPage(event:any) {
+    this.productPerPage = event.target.value;
+    this.page = 1;
+    this.loadData();
+  }
   async loadData() {
      this.slug = this._route.snapshot.paramMap.get('slug');
     //  console.log('this param', this._route.snapshot.paramMap.get('slug'));
     // console.log("page is", this._route.snapshot.queryParamMap.get('page'));  
-     switch (this._route.snapshot.paramMap.get('slug')) {
-       case 'burgers':
-         this.listOfFood = await this.homeService.getAllBurgers(this.page);
-         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
-         break;
-       case 'breads':
-         this.listOfFood = await this.homeService.getAllBreads(this.page);
-         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
-         break;
-       case 'drinks':
-         this.listOfFood = await this.homeService.getAllDrinks(this.page);
-         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
-         break;
-       case 'sandwiches':
-         this.listOfFood = await this.homeService.getAllSandwitchs(this.page);
-         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
-         break;
-       case 'pizzas':
-         this.listOfFood = await this.homeService.getAllPizzas(this.page);
-         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
-         break;
-       case 'best-foods':
-         this.listOfFood = await this.homeService.getAllbestFood(this.page);
-         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
-         break;
-       case 'our-foods':
+      if(this.slug =='our-foods') {
          console.log("search", this.search);
          this.listOfFood = await this.homeService.getAllOurFood(this.search);
+         this.isLoading =false;
          this.total = this.listOfFood.length; 
          console.log("ourfoods total", this.total);
-         break;
-     }
-    //  this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug'));  
+       } else {
+        this.listOfFood = await this.homeService.getAllFoodWishCategory(this.slug , this.page, this.productPerPage);
+        this.isLoading =false;
+        this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
+       }
+       this.listOfFood.forEach(ele => {
+          this.wishService.wishList.findIndex(e => e.id == ele.id)==-1 ? ele.isInWishList= false:ele.isInWishList= true;
+       })
      this.shownFood = this.listOfFood;
-    // this.total = 60;
+     
   }
 
   searchInput(box: any) {
@@ -123,7 +115,9 @@ export class FoodComponent implements OnInit {
   addToWishList(id: string) {
     const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
      this.wishService.addFoodToWishList(this.listOfFood[index]);
+     this.listOfFood[index].isInWishList = !this.listOfFood[index].isInWishList;
      this.wishMsg = true;
+     
      setTimeout(() => {
        this.wishMsg = false;
      }, 1500);
