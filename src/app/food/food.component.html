@@ -38,8 +38,8 @@
                 {{item}}
             </option>
         </select>
-        <span (click)="changeView('list')"><i class="fa-sharp fa-solid fa-list"></i></span>
-        <span (click)="changeView('grid')"><i class="fa-solid fa-square"></i></span>
+        <span (click)="changeView('list')" [ngClass]="{'active':viewOfPage=='list','inactive':viewOfPage=='grid'}"><i class="fa-sharp fa-solid fa-list"></i></span>
+        <span (click)="changeView('grid')" [ngClass]="{'inactive':viewOfPage=='list','active':viewOfPage=='grid'}"><i class="fa-solid fa-square"></i></span>
     </div>
 </div> 
 
