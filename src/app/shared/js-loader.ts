@@ -1,15 +1,15 @@
-declare var $:any;
+declare var $: any;
 
 export class JsLoader {
-    public static sliderJs() {
-      const js = document.createElement('script');
-      js.innerHTML = `var swiper = new Swiper(".slide-content", {
+  public static sliderJs() {
+    const js = document.createElement('script');
+    js.innerHTML = `var swiper = new Swiper(".slide-content", {
       slidesPerView: 1,
       spaceBetween: 25,
       loop: true,
       autoplay: 
     {
-      delay: 2000,
+      delay: 1500,
     },
       centerSlide: 'true',
       fade: 'true',
@@ -42,6 +42,6 @@ export class JsLoader {
           },
       },
     });`;
-      document.body.appendChild(js);
-    }
+    document.body.appendChild(js);
+  }
 }

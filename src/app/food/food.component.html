@@ -38,11 +38,12 @@
 <div class="container menu">
     <div class="d-flex justify-content-around">
         <div class="text-center grid">
-            <div
+            <div class="data-image"
                 *ngFor="let item of listOfFood | paginate: { itemsPerPage: productPerPage, currentPage: page, totalItems: total }; let i = index;">
                 <div class="rate">
                     <div class="rating">
-                        <i class="fa-solid fa-star">{{item.rate}}</i>
+                        {{item.rate}}
+                        <i class="fa-solid fa-star"></i>
                     </div>
                 </div>
                 <div class="food">

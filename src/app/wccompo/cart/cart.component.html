@@ -1,18 +1,18 @@
 <div class="container menu">
-    <div class="total " *ngIf="foodList.length!=0">
+    <div class="total" *ngIf="foodList.length!=0">
         Grand Total: <span>${{total_amount}}</span>
     </div>
-    <div class="d-flex flex-column justify-content-around">
-        <div class="d-flex justify-content-center flex-column mt-5" *ngIf="foodList.length==0">
+    <div class="grid">
+        <div class="row" *ngIf="foodList.length==0">
             <div class="text-center">
-                <img src="assets/photos/empty-cart.png" alt="Not found">
+                <img src="assets/photos/empty-cart.png" alt="Not found" class="logo">
             </div>
             <div class="text-center">
                 <h2>Your cart empty</h2>
             </div>
         </div>
-        <div class="text-center grid">
-            <div *ngFor="let item of foodList; let i = index;">
+        <div class="row">
+            <div *ngFor="let item of foodList; let i = index;" class="col-6 mt-3 d-flex flex-row"   >
                 <div>
                     <img src={{item?.data?.img}} alt="No image found"  onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'">
                 </div>
@@ -20,7 +20,7 @@
                     <li>{{item?.data?.name}}</li>
                     <li>{{item?.data?.dsc}}</li>
                     <li>{{item?.data?.country}}</li>
-                    <li>{{item?.data?.price}}</li>
+                    <li>${{item?.data?.price}}</li>
                     <li>
                         <button class="sub" (click)="removeFromCart(item?.data)">-</button>
                         <span class="product-count">{{item.quantity}}</span>

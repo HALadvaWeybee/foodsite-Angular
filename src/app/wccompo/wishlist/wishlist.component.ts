@@ -4,20 +4,18 @@ import { WishlistService } from 'src/app/services/wishlist.service';
 @Component({
   selector: 'app-wishlist',
   templateUrl: './wishlist.component.html',
-  styleUrls: ['./wishlist.component.scss']
+  styleUrls: ['./wishlist.component.scss'],
 })
 export class WishlistComponent implements OnInit {
+  constructor(private wishService: WishlistService) {}
 
-  constructor(private wishService: WishlistService) { }
-  
-  foodList:any[] =[];
+  foodList: any[] = [];
   ngOnInit(): void {
-     this.foodList = this.wishService.wishList;
+    this.foodList = this.wishService.wishList;
   }
 
-  deleteFromWish(id:string) {
-    this.foodList = this.foodList.filter((ele:any) => ele.id!=id);
+  deleteFromWish(id: string) {
+    this.foodList = this.foodList.filter((ele: any) => ele.id != id);
     this.wishService.deleteFromWishList(id);
   }
-
 }
