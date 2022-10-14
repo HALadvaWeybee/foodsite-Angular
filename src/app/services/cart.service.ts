@@ -38,6 +38,13 @@ export class CartService {
     this.productList.next(this.cartList);
     // if(this.wishList.length ==1) this.wishList = [];
   }
+
+  updateToCartList(obj:any, productCount:number) {
+    console.log("update",this.cartList.findIndex(ele =>ele.data.id == obj.id));
+    this.cartList[this.cartList.findIndex(ele =>ele.data.id == obj.id)].quantity =productCount;
+    this.setInLocalStorage();
+    this.productList.next(this.cartList);
+  }
   getCartListCount() {
      return this.productList.asObservable();
   }

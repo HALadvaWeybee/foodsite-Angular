@@ -28,8 +28,11 @@
                     <button class="add" (click)="add()">+</button>
                 </li>
                 <li>
-                    <button  class="btn btn-warning" (click)="addToCartList()">
+                    <button  class="btn btn-warning" (click)="addToCartList()" *ngIf="!isProductInUpdate">
                         {{message[+isProductInCart]+ 'Cart'}}
+                    </button>
+                    <button  class="btn btn-warning" (click)="upDateToCartList()" *ngIf="isProductInUpdate">
+                        Update to cart
                     </button>&nbsp;
                     <button class="btn btn-warning" (click)="addToWishList()">
                         {{message[+isProductInWish]+ 'WishList'}}

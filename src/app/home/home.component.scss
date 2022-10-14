@@ -25,7 +25,7 @@ p {
       }
       a {
         margin-top: 2px;
-        color: orange;
+        color: rgb(255, 193, 7);
     }
     a:first-child {
       margin-left:35px;
@@ -61,6 +61,32 @@ p {
     
     div {
       border-radius: 20px;
+    }
+
+    .wc {
+      display: none;
+      position: absolute;
+      cursor: pointer;
+      .fa-regular, .fa-solid {
+          margin-right: 5px;
+          margin-top: 4px;
+          margin-left: -7px;
+      }
+      i {
+          font-size: 35px;
+        }
+        a {
+          margin-top: 2px;
+          color: orange;
+      }
+      a:first-child {
+        margin-left:28px;
+      }
+    }
+    .food:hover {
+    .wc {
+        display: block;
+    }
     }
 }
 

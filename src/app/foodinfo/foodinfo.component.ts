@@ -4,6 +4,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { HomeService } from 'src/app/services/home.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { Title } from '@angular/platform-browser';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-foodinfo', 
@@ -23,9 +24,11 @@ export class FoodinfoComponent implements OnInit {
   wishMsg:boolean = false;
   isProductInCart:boolean = false;
   isProductInWish:boolean = false;
+  isProductInUpdate:boolean = false;
   message:string[] = ['Add to ', 'Remove From '];
   printDetail:any;
   productCount:number=1;
+  isUpdate=false;
   isLoading = true; 
 
   async ngOnInit() {
@@ -42,6 +45,10 @@ export class FoodinfoComponent implements OnInit {
       this.isProductInCart = true;  
     }
     
+    console.log("this print detail", this.cartService.cartList.findIndex(ele =>ele?.data?.id == this.printDetail.id));
+    
+    this.productCount = this.cartService.cartList[this.cartService.cartList.findIndex(ele =>ele?.data?.id == this.printDetail.id)]?.quantity || 1;
+
     if(this.homeService.resentFood.length < 5 || this.homeService.resentFood.findIndex(ele => ele.id == this.printDetail.id)!=-1){
       if(this.homeService.resentFood.length==0) {
          this.homeService.resentFood.unshift(this.printDetail)
@@ -60,10 +67,18 @@ export class FoodinfoComponent implements OnInit {
 
   add() {
     this.productCount++;
+    if(this.cartService.cartList.findIndex(ele =>ele?.data?.id == this.printDetail.id)!=-1) {
+       this.isProductInUpdate = true;
+    }
+    // this.isUpdate=!this.isUpdate;
   }
   sub() {
-    if(this.productCount>0)
+    if(this.productCount>1)
+    {
       this.productCount--;
+      // this.isUpdate=!this.isUpdate;
+    } 
+
   }
 
   addToWishList() {
@@ -80,6 +95,16 @@ export class FoodinfoComponent implements OnInit {
     this.cartMsg = true;
     this.isProductInCart = !this.isProductInCart;
     
+    setTimeout(() => {
+      this.cartMsg = false;
+    }, 1500);
+  }
+
+  upDateToCartList() {
+    this.cartService.updateToCartList(this.printDetail,this.productCount);
+    // this.isProductInCart = !this.isProductInCart;
+    this.isProductInUpdate = !this.isProductInUpdate;
+    this.cartMsg= true;
     setTimeout(() => {
       this.cartMsg = false;
     }, 1500);

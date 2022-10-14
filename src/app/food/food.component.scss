@@ -82,6 +82,9 @@ text-align: left;
 }
 
 .v-list {
+  ul {
+     list-style-type: none;
+  }
   .rate {
     .rating {
       position: absolute;
@@ -140,7 +143,6 @@ text-align: left;
         padding: 4px;
         width: 66px;
         border-radius: 0px 0px 0px 25px;
-        // width: 131%;
       }
     }
     .wc {
@@ -193,48 +195,25 @@ text-align: left;
     column-gap: 50px;
   }
     
-    // img {
-    //     width: 200px;
-    //     height: 200px;
-    //     border-radius: 25px;
-    // }
-
 }
 
 .food {
   border-radius: 20px;
 }
 
-// .alert-message {
-//   z-index: 5;
-//   border-radius: 3px;
-//   line-height: 30px;
-//   position: fixed;
-//   top: 10;
-//   right: 0;
-//   display: block;
-//   width: 30%;
-//   padding: 12px;
-//   box-sizing: border-box;
-//   color: white;
-//   margin-right: 20px;
-//   box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.6);
-//   background: rgb(29, 145, 29);
-// }
-
 .wish-msg {
   margin-top: 65px;
 }
 
 .active {
-  background-color: black;
+  background-color: rgb(255, 193, 7);
   color: white;
   padding: 5px;
   border-radius: 20px;
 }
 .inactive {
   background-color: white;
-  color: black;
+  color: rgb(255, 193, 7);
   padding: 5px;
   border-radius: 20px;
 }
