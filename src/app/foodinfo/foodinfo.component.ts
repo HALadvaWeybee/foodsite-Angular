@@ -22,10 +22,10 @@ export class FoodinfoComponent implements OnInit {
   cartMsg:boolean = false;
   wishMsg:boolean = false;
   isProductInCart:boolean = false;
-  message:string[] = ['Add to Cart', 'Remove From Cart'];
+  isProductInWish:boolean = false;
+  message:string[] = ['Add to ', 'Remove From '];
   printDetail:any;
   productCount:number=1;
-  buttonDisabled:boolean = false;
   isLoading = true; 
 
   async ngOnInit() {
@@ -36,8 +36,12 @@ export class FoodinfoComponent implements OnInit {
     this.printDetail = this.data[0];  
     this.isLoading = false; 
     if(this.wishService.wishList.findIndex((ele) => ele.id == this.printDetail.id)!=-1) {
-    this.buttonDisabled = true;
+       this.isProductInWish = true; 
     }
+    if(this.cartService.cartList.findIndex((ele) => ele?.data?.id == this.printDetail.id)!=-1) {
+      this.isProductInCart = true;  
+    }
+    
     if(this.homeService.resentFood.length < 5 || this.homeService.resentFood.findIndex(ele => ele.id == this.printDetail.id)!=-1){
       if(this.homeService.resentFood.length==0) {
          this.homeService.resentFood.unshift(this.printDetail)
@@ -65,7 +69,7 @@ export class FoodinfoComponent implements OnInit {
   addToWishList() {
     this.wishService.addFoodToWishList(this.printDetail);
     this.wishMsg = true;
-    this.buttonDisabled = true;
+    this.isProductInWish = !this.isProductInWish;
     setTimeout(() => {
       this.wishMsg = false;
     }, 1500);

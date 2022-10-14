@@ -15,7 +15,7 @@
             <ul>
                 <li>{{printDetail?.name}}</li>
                 <li>{{printDetail?.dsc}}</li>
-                <li>${{printDetail?.price}}</li>
+                <li>${{printDetail?.price}}</li> 
                 <li>
                     <span *ngFor="let item of [].constructor(5) let i = index;">
                         <i *ngIf="i+1 <= printDetail?.rate" class="fa-solid fa-star" style="color: orange;"></i>
@@ -28,19 +28,23 @@
                     <button class="add" (click)="add()">+</button>
                 </li>
                 <li>
-                    <button  class="btn btn-warning" (click)="addToCartList()">{{message[+isProductInCart]}}</button>&nbsp;
-                    <button class="btn btn-warning" (click)="addToWishList()" [disabled]="buttonDisabled">Add to WishList</button>
+                    <button  class="btn btn-warning" (click)="addToCartList()">
+                        {{message[+isProductInCart]+ 'Cart'}}
+                    </button>&nbsp;
+                    <button class="btn btn-warning" (click)="addToWishList()">
+                        {{message[+isProductInWish]+ 'WishList'}}
+                    </button>
                 </li>
             </ul>
         </div>
         <div *ngIf="cartMsg">
-            <label for="one" class="alert-message">
-                <strong>Success</strong> Product added to cart successfully
+            <label for="one" class="alert-message" [ngClass]="{'bg-success': isProductInCart, 'bg-danger': !isProductInCart}">
+                <strong>{{printDetail?.name}}</strong> {{message[+(!isProductInCart)]}} cart successfully
             </label>
         </div>
         <div  class="wish-msg" *ngIf="wishMsg">
-            <label class="alert-message">
-                <strong>Success</strong> Product added to wishlist successfully
+            <label class="alert-message" [ngClass]="{'bg-success': isProductInWish, 'bg-danger': !isProductInWish}">
+               <strong>{{printDetail?.name}}</strong>  {{message[+(!isProductInWish)]}} wishlist successfully.
             </label>
         </div>
     </div>

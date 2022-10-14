@@ -1,21 +1,21 @@
-<div *ngIf="cartMsg" class="d-flex flex-row justify-content-between">
+<div *ngIf="cartMsg" [ngClass]="{'bg-success': isProductInCart, 'bg-danger': !isProductInCart}" class="ad-rm-msg">
     <label for="one" class="alert-message">
-        <strong>Success</strong> Product added to cart successfully
+        <strong>Product</strong>  {{message[+(!isProductInCart)]}} cart successfully.
     </label>
 </div>
-<div  class="wish-msg" *ngIf="wishMsg" class="d-flex flex-row justify-content-between">
+<div  *ngIf="wishMsg" [ngClass]="{'bg-success': isProductInWish, 'bg-danger': !isProductInWish}" class="ad-rm-msg">
     <label class="alert-message">
-        <strong>Success</strong> Product added to wishlist successfully
+        <strong>Product</strong>  {{message[+(!isProductInWish)]}} wishlist successfully.
     </label>
 </div>
-<div *ngIf="cartMsg1" class="d-flex flex-row justify-content-between">
+<div *ngIf="cartMsg1" [ngClass]="{'bg-success': isProductInCart1, 'bg-danger': !isProductInCart1}" class="ad-rm-msg">
     <label for="one" class="alert-message">
-        <strong>Success</strong> Product added to cart successfully
+        <strong>Product</strong>  {{message[+(!isProductInCart1)]}} cart successfully.
     </label>
 </div>
-<div  class="wish-msg" *ngIf="wishMsg1" class="d-flex flex-row justify-content-between">
+<div  *ngIf="wishMsg1" [ngClass]="{'bg-success': isProductInWish1, 'bg-danger': !isProductInWish1}" class="ad-rm-msg">
     <label class="alert-message">
-        <strong>Success</strong> Product added to wishlist successfully
+        <strong>Product</strong>  {{message[+(!isProductInWish1)]}} wishlist successfully.
     </label>
 </div>
 <div id="carouselExampleControls" class="carousel slide mt-3" data-bs-ride="carousel">
@@ -39,54 +39,72 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-<div class="container our-menu mt-3">
-    <div class="d-flex flex-column">
-        <div class="title text-center">
-            <span class="header">Our Menu</span>
-        </div>
-        <div class="text-center d-flex flex-row justify-content-around mt-3">
+<div class="container our-menu mt-3"> 
+    <div class="grid">
+        <div class="row text-center title">
             <div>
+                <span class="header">Our Menu</span>
+            </div>
+        </div>
+        <div class="row text-center mt-3">
+            <div class="col col-lg-2">
                 <a routerLink="menu/burgers"><img
-                        src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+                        src="assets/photos/o-burger.jpg"
                          alt="No image found"></a>
                 <h4>Burger</h4>
             </div>
-            <div>
+            <div class="col col-lg-2">
                 <a routerLink="menu/breads"><img
-                        src="https://rakskitchen.net/wp-content/uploads/2016/01/garlic-bread-with-cheese.jpg"
+                        src="assets/photos/o-bread.jpg"
                         alt="No image found"></a>
                 <h4>Breads</h4>
             </div>
-            <div>
+            <div class="col col-lg-2">
                 <a routerLink="menu/sandwiches"><img
-                        src="https://c.ndtvimg.com/2021-07/vckh316o_grilled-chicken-sandwich_625x300_28_July_21.jpg"
+                        src="assets/photos/o-sandwi.webp"
                         alt="No image found"></a>
                 <h4>Sandwitch</h4>
             </div>
-            <div>
+            <div class="col col-lg-2">
                 <a routerLink="menu/pizzas"><img
-                        src="https://timesofindia.indiatimes.com/thumb/msid-87930581,width-1200,height-900,resizemode-4/.jpg"
+                        src="assets/photos/o-pizza.jpg"
                         alt="No image found"></a>
                 <h4>Pizza</h4>
             </div>
-            <div>
+            <div class="col col-lg-2">
                 <a routerLink="menu/drinks"><img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyla30OIyPjJ61mmKw5IbSlkUVG1qckx_7RrjXbGsjLcAM8y2x3vzrZu3WhzjchBrG0FI&usqp=CAU"
+                        src="assets/photos/o-drink.jpg"
                         alt="No image found"></a>
                 <h4>Drinks</h4>
+            </div>
+            <div class="col col-lg-2">
+                <a routerLink="menu/our-foods"><img
+                        src="assets/photos/o-food.webp"
+                        alt="No image found"></a>
+                <h4>Our-foods</h4>
             </div>
         </div>
     </div>
 </div>
 <div class="container recommended">
-    <div class="d-flex flex-column">
-        <div class="title text-center d-flex flex-row justify-content-between">
-            <span id="recommended">Recommended for you</span>
-            <a routerLink="menu/best-foods"><button class="btn btn-warning">View All</button></a>
+    <div class="grid">
+        <div class="row title">
+            <div class="col">
+                <span id="recommended">Recommended for you</span>
+            </div>
+            <div class="col-1">
+                <a routerLink="menu/best-foods"><button class="btn btn-warning">View All</button></a>
+            </div>
         </div>
         
-        <div class="text-center grid mt-4">
-            <div *ngFor="let item of recommendedForYou" >
+        <div class="row mt-4">
+            <div *ngFor="let item of recommendedForYou" class="col text-center">
+                <div class="rate">
+                    <div class="rating">
+                        {{item.rate}}
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
                 <div class="food">  
                     <div class="wc">
                         <a><i class="fa-solid fa-heart" (click)="addToWishList(item.id)" *ngIf="item?.isInWishList"></i></a>
@@ -103,13 +121,15 @@
 </div>
 
 <div class="container resent" *ngIf="resentFood.length!=0">
-    <div class="d-flex flex-column">
-        <div class="text-center" >
-            <span class="header">Your Resent</span>
+    <div class="grid">
+        <div class="row title text-center">
+            <div class="col">
+                <span class="header">Your Resent</span>
+            </div>
         </div>
         
-        <div class="text-center grid mt-4">
-            <div *ngFor="let item of resentFood">
+        <div class="row text-center mt-4">
+            <div *ngFor="let item of resentFood" class="col text-center">
                 <div class="food">
                     <div class="wc">
                          <a><i class="fa-solid fa-heart" (click)="addToWishList1(item.id)" *ngIf="item?.isInWishList"></i></a>

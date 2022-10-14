@@ -22,9 +22,14 @@ export class FoodComponent implements OnInit {
   // alertShow:boolean = false;
   cartMsg:boolean = false;
   wishMsg:boolean = false;
+  isProductInCart:boolean = false;
+  isProductInWish:boolean = false;
   productPerPageArr = [8 , 12, 16, 20];
+  message:string[] = ['Add to ', 'Remove From '];
   productPerPage:number = Number(this._route.snapshot.queryParamMap.get('limit')) ?? 8;
   isLoading=true;
+  viewOfPage= 'list';
+
 
   constructor(
     private homeService: HomeService,
@@ -65,7 +70,7 @@ export class FoodComponent implements OnInit {
   itemPerPage(event:any) {
     this.productPerPage = event.target.value;
     this.page = 1;
-    this._router.navigate(['menu/our-foods'],
+    this._router.navigate([`menu/${this.slug}`],
         {
           queryParams: {
             page: this.page,
@@ -75,15 +80,15 @@ export class FoodComponent implements OnInit {
           queryParamsHandling:'merge'
         } 
       )
-    this.loadData();
+    this.loadData(); 
   }
   async loadData() {
      this.slug = this._route.snapshot.paramMap.get('slug');
     //  console.log('this param', this._route.snapshot.paramMap.get('slug'));
     // console.log("page is", this._route.snapshot.queryParamMap.get('page'));  
-      if(this.slug =='our-foods') {
+      if(this.search!='') {
          console.log("search", this.search);
-         this.listOfFood = await this.homeService.getAllOurFood(this.search);
+         this.listOfFood = await this.homeService.getAllSearchFood(this.slug, this.search);
          this.isLoading =false;
          this.total = this.listOfFood.length; 
          console.log("ourfoods total", this.total);
@@ -104,7 +109,7 @@ export class FoodComponent implements OnInit {
     if(!(+box.value)) {
       this.search = box.value;
       this.page = 1;
-      this._router.navigate(['menu/our-foods'],
+      this._router.navigate([`menu/${this.slug}`],
         {
           queryParams: {
             page: this.page,
@@ -130,6 +135,7 @@ export class FoodComponent implements OnInit {
     const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
      this.wishService.addFoodToWishList(this.listOfFood[index]);
      this.listOfFood[index].isInWishList = !this.listOfFood[index].isInWishList;
+     this.isProductInWish =this.listOfFood[index].isInWishList;
      this.wishMsg = true;
      
      setTimeout(() => {
@@ -141,6 +147,7 @@ export class FoodComponent implements OnInit {
     const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
     this.cartService.addFoodToCartList(this.listOfFood[index], 1);
     this.listOfFood[index].isInCartList = !this.listOfFood[index].isInCartList;
+    this.isProductInCart = this.listOfFood[index].isInCartList;
     this.cartMsg = true;
     setTimeout(() => {
       this.cartMsg = false;
@@ -164,6 +171,10 @@ export class FoodComponent implements OnInit {
         queryParamsHandling:'merge'
       })
   
+  }
+
+  changeView(view:string) {
+    this.viewOfPage = view == 'list'?'list':'grid';
   }
 }
 

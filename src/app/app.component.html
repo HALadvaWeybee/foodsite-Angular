@@ -14,11 +14,11 @@
             Menu
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" [routerLink]="['menu/burgers']" [queryParams]="{page:1}">Burger</a></li>
-            <li><a class="dropdown-item" [routerLink]="['menu/breads']" [queryParams]="{page:1}">Bread</a></li>
-            <li><a class="dropdown-item" [routerLink]="['menu/sandwiches']" [queryParams]="{page:1}">Sandwitch</a></li>
-            <li><a class="dropdown-item" [routerLink]="['menu/pizzas']" [queryParams]="{page:1}">Pizza</a></li>
-            <li><a class="dropdown-item" [routerLink]="['menu/drinks']" [queryParams]="{page:1}">Drink</a></li>
+            <li><a class="dropdown-item" [routerLink]="['menu/burgers']" [queryParams]="{page:1 ,limit:8}">Burger</a></li>
+            <li><a class="dropdown-item" [routerLink]="['menu/breads']" [queryParams]="{page:1, limit:8}">Bread</a></li>
+            <li><a class="dropdown-item" [routerLink]="['menu/sandwiches']" [queryParams]="{page:1, limit:8}">Sandwitch</a></li>
+            <li><a class="dropdown-item" [routerLink]="['menu/pizzas']" [queryParams]="{page:1, limit:8}">Pizza</a></li>
+            <li><a class="dropdown-item" [routerLink]="['menu/drinks']" [queryParams]="{page:1, limit:8}">Drink</a></li>
           </ul>
         </li>
         <li class="mobile-v">

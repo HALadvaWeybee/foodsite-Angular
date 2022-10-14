@@ -13,11 +13,9 @@ export class CartComponent implements OnInit {
 
   foodList:any[] =[];
   ngOnInit(): void {
-    //  if(localStorage.getItem('cartList')) {
-        // this.foodList = JSON.parse(localStorage.getItem('cartList') || '');
-    //  } else {
-        this.foodList = [...this.cartService.cartList];
-    //  }
+     this.foodList = [...this.cartService.cartList];
+     console.log("this food", this.foodList);
+     
      this.foodList.forEach(ele => {
         this.total_amount += (ele?.data?.price * ele.quantity);
      })

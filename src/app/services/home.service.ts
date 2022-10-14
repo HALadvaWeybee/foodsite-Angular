@@ -42,8 +42,8 @@ export class HomeService {
      return this.data;
   }
 
-  async getAllOurFood(search:string) {
-    await this.http.get('https://ig-food-menus.herokuapp.com/our-foods?name_like='+ search).toPromise().then((res) => {
+  async getAllSearchFood(category:string, search:string) {
+    await this.http.get('https://ig-food-menus.herokuapp.com/'+category+'?name_like='+ search).toPromise().then((res) => {
       this.data = res;
       this.ourFoods = this.data
       console.log("ourfoods",this.ourFoods.length);
