@@ -9,6 +9,7 @@ import { CartComponent } from './wccompo/cart/cart.component';
 import { FoodComponent } from './food/food.component';
 import { FoodinfoComponent } from './foodinfo/foodinfo.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CartComponent,
     FoodComponent,
     FoodinfoComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

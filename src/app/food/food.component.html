@@ -5,11 +5,6 @@
     <div class="dot"></div> 
     <div class="dot"></div>
 </div>
-<!-- <div *ngIf="cartMsg" class="cart-msg">
-    <label for="one" class="alert-message">
-        <strong>Success</strong> Product added to cart successfully
-    </label>
-</div> -->
 <div class="ad-rm-msg" *ngIf="wishMsg" [ngClass]="{'bg-success': isProductInWish, 'bg-danger': !isProductInWish}">
     <label class="alert-message">
         <strong>Product</strong>  {{message[+(!isProductInWish)]}} wishlist successfully.
@@ -97,8 +92,8 @@
                 </div> -->
                 <ul class="cart-detail">
                     <li routerLink="{{item.id}}">{{item?.name}}</li>
-                    <li routerLink="{{item.id}}">{{item?.country}}</li>
                     <li routerLink="{{item.id}}">{{item?.dsc}}</li>
+                    <li routerLink="{{item.id}}"><i class="fa-solid fa-location-dot"></i> {{item?.country}}</li>
                     <li routerLink="{{item.id}}">${{item?.price}}</li>
                 </ul>
                 
@@ -132,7 +127,7 @@
                 <ul>
                     <li routerLink="{{item.id}}">{{item?.name}}</li>
                     <li routerLink="{{item.id}}">{{item?.dsc}}</li>
-                    <li routerLink="{{item.id}}">{{item?.country}}</li>
+                    <li routerLink="{{item.id}}"><i class="fa-solid fa-location-dot"></i>  {{item?.country}}</li>
                     <li routerLink="{{item.id}}">${{item?.price}}</li>
                 </ul>
             </div>
