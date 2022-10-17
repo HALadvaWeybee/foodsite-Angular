@@ -99,7 +99,7 @@
         </div>
         
         <div class="row mt-4">
-            <div *ngFor="let item of recommendedForYou" class="col text-center">
+            <div *ngFor="let item of recommendedForYou" class="col text-center position-relative">
                 <div class="rate">
                     <div class="rating">
                         {{item.rate}}
@@ -128,7 +128,7 @@
         </div>
         
         <div class="text-center grid-p mt-4">
-            <div *ngFor="let item of resentFood">
+            <div *ngFor="let item of resentFood" class="position-relative">
                 <div class="food">
                     <div class="wc">
                         <a><i class="fa-solid fa-heart" (click)="addToWishList(resentFood,item.id)" *ngIf="item?.isInWishList"></i></a>

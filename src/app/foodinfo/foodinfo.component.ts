@@ -45,7 +45,6 @@ export class FoodinfoComponent implements OnInit {
       this.isProductInCart = true;  
     }
     
-    console.log("this print detail", this.cartService.cartList.findIndex(ele =>ele?.data?.id == this.printDetail.id));
     
     this.productCount = this.cartService.cartList[this.cartService.cartList.findIndex(ele =>ele?.data?.id == this.printDetail.id)]?.quantity || 1;
 
@@ -61,7 +60,7 @@ export class FoodinfoComponent implements OnInit {
           this.homeService.resentFood.unshift(this.printDetail);
         }
       }
-      localStorage.setItem('resentFood', JSON.stringify([...this.homeService.resentFood]))
+      localStorage.setItem('resentFood', JSON.stringify(this.homeService.resentFood))
     } 
   }
 

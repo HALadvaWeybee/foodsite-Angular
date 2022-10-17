@@ -14,11 +14,10 @@ export class CartService {
   }
   productList = new BehaviorSubject<any>([]);
 
-
   addFoodToCartList(obj:any, productCount:number) {
     console.log("cartlist", obj);
     
-     if(this.cartList.length==0 || (this.cartList.findIndex((ele) => ele?.data?.id == obj.id)==-1 && this.cartList.length!=0)) {
+     if(this.cartList.length==0 || (this.cartList?.findIndex((ele) => ele?.data?.id == obj.id)==-1 && this.cartList.length!=0)) {
        this.cartList.push({
          data:obj,
          quantity:productCount
