@@ -88,6 +88,7 @@
 </div>
 
 <div class="container recommended">
+    <div class="grid">
         <div class="row title">
             <div class="col">
                 <span id="recommended">Recommended for you</span>
@@ -117,21 +118,17 @@
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 <div class="container resent" *ngIf="resentFood.length!=0">
-        <div class="row text-center">
+    <div class="d-flex flex-column">
+        <div class="text-center">
           <span class="header">Your Resent</span>
         </div>
         
-        <div class="text-center row mt-4">
-            <div  class="col text-center" *ngFor="let item of resentFood">
-                <div class="rate">
-                    <div class="rating">
-                        {{item.rate}}
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                </div>
+        <div class="text-center grid-p mt-4">
+            <div *ngFor="let item of resentFood">
                 <div class="food">
                     <div class="wc">
                          <a><i class="fa-solid fa-heart" (click)="addToWishList1(item.id)" *ngIf="item?.isInWishList"></i></a>
@@ -144,6 +141,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 <div class="container">
@@ -246,4 +244,4 @@
             <div class="swiper-pagination"></div>
         </div>
 </div>
-
+<app-footer></app-footer>
