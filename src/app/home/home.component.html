@@ -8,7 +8,7 @@
         <strong>Product</strong>  {{message[+(!isProductInWish)]}} wishlist successfully.
     </label>
 </div>
-<div *ngIf="cartMsg1" [ngClass]="{'bg-success': isProductInCart1, 'bg-danger': !isProductInCart1}" class="ad-rm-msg">
+<!-- <div *ngIf="cartMsg1" [ngClass]="{'bg-success': isProductInCart1, 'bg-danger': !isProductInCart1}" class="ad-rm-msg">
     <label for="one" class="alert-message">
         <strong>Product</strong>  {{message[+(!isProductInCart1)]}} cart successfully.
     </label>
@@ -17,7 +17,7 @@
     <label class="alert-message">
         <strong>Product</strong>  {{message[+(!isProductInWish1)]}} wishlist successfully.
     </label>
-</div>
+</div> -->
 <div id="carouselExampleControls" class="carousel slide mt-3" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -38,7 +38,7 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-  </div>
+</div>
 <div class="container our-menu mt-3"> 
     <div class="grid">
         <div class="row text-center title">
@@ -108,10 +108,10 @@
                 </div>
                 <div class="food">  
                     <div class="wc">
-                        <a><i class="fa-solid fa-heart" (click)="addToWishList(item.id)" *ngIf="item?.isInWishList"></i></a>
-                        <a><i class="fa-regular fa-heart" (click)="addToWishList(item.id)" *ngIf="!item?.isInWishList"></i></a>
-                        <a><i class="bx bxs-cart" (click)="addToCartList(item.id)" *ngIf="item?.isInCartList"></i></a>
-                        <a><i class="bx bx-cart" (click)="addToCartList(item.id)" *ngIf="!item?.isInCartList"></i></a>
+                        <a><i class="fa-solid fa-heart" (click)="addToWishList(recommendedForYou,item.id)" *ngIf="item?.isInWishList"></i></a>
+                        <a><i class="fa-regular fa-heart" (click)="addToWishList(recommendedForYou, item.id)" *ngIf="!item?.isInWishList"></i></a>
+                        <a><i class="bx bxs-cart" (click)="addToCartList(recommendedForYou, item.id)" *ngIf="item?.isInCartList"></i></a>
+                        <a><i class="bx bx-cart" (click)="addToCartList(recommendedForYou, item.id)" *ngIf="!item?.isInCartList"></i></a>
                     </div> 
                     <a routerLink="menu/best-foods/{{item.id}}"><img src={{item.img}} alt="No image found"></a>
                     <p routerLink="menu/best-foods/{{item.id}}">{{item?.name}}</p>
@@ -131,10 +131,10 @@
             <div *ngFor="let item of resentFood">
                 <div class="food">
                     <div class="wc">
-                         <a><i class="fa-solid fa-heart" (click)="addToWishList1(item.id)" *ngIf="item?.isInWishList"></i></a>
-                        <a><i class="fa-regular fa-heart" (click)="addToWishList1(item.id)" *ngIf="!item?.isInWishList"></i></a>
-                        <a><i class="bx bxs-cart" (click)="addToCartList1(item.id)" *ngIf="item?.isInCartList"></i></a>
-                        <a><i class="bx bx-cart" (click)="addToCartList1(item.id)" *ngIf="!item?.isInCartList"></i></a>
+                        <a><i class="fa-solid fa-heart" (click)="addToWishList(resentFood,item.id)" *ngIf="item?.isInWishList"></i></a>
+                        <a><i class="fa-regular fa-heart" (click)="addToWishList(resentFood, item.id)" *ngIf="!item?.isInWishList"></i></a>
+                        <a><i class="bx bxs-cart" (click)="addToCartList(resentFood, item.id)" *ngIf="item?.isInCartList"></i></a>
+                        <a><i class="bx bx-cart" (click)="addToCartList(resentFood, item.id)" *ngIf="!item?.isInCartList"></i></a>
                     </div> 
                     <a routerLink="menu/our-foods/{{item.id}}"><img src={{item.img}} alt="No image found"></a>
                     <p routerLink="menu/our-foods/{{item.id}}">{{item?.name}}</p>

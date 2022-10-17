@@ -38,39 +38,10 @@
     </div>
 </div> 
 
-<!-- <div class="container recommended">
-    <div class="grid"> 
-        <div class="row mt-4">
-            <div class="row"
-              *ngFor="let item of listOfFood | paginate: { itemsPerPage: productPerPage, currentPage: page, totalItems: total }; let i = index;" >
-                <div class="rate">
-                    <div class="rating">
-                        {{item.rate}}
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                </div>
-                <div class="food">  
-                    <div class="wc">
-                        <a><i class="fa-solid fa-heart" (click)="addToWishList(item.id)" *ngIf="item?.isInWishList"></i></a>
-                        <a><i class="fa-regular fa-heart" (click)="addToWishList(item.id)" *ngIf="!item?.isInWishList"></i></a>
-                        <a><i class="bx bxs-cart" (click)="addToCartList(item.id)" *ngIf="item?.isInCartList"></i></a>
-                        <a><i class="bx bx-cart" (click)="addToCartList(item.id)" *ngIf="!item?.isInCartList"></i></a>
-                    </div> 
-                    <a routerLink="menu/best-foods/{{item.id}}"><img src={{item.img}} alt="No image found"></a>
-                    <p routerLink="menu/best-foods/{{item.id}}">{{item?.name}}</p>
-                    <p routerLink="{{item.id}}">{{item?.dsc}}</p>
-                    <p routerLink="{{item.id}}">{{item?.country}}</p>
-                    <p routerLink="{{item.id}}">${{item?.price}}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 <div class="container v-list" *ngIf="viewOfPage=='list'">
     <div class="grid">
         <div class="text-center row">
-            <div *ngFor="let item of listOfFood | paginate: { itemsPerPage: productPerPage, currentPage: page, totalItems: total }; let i = index;" class="col-6 mt-3 d-flex flex-row"   >
+            <div *ngFor="let item of listOfFood | paginate: { itemsPerPage: productPerPage, currentPage: page, totalItems: total }; let i = index;" class="col-12 col-sm-12 col-md-6 col-lg-6 mt-3 d-flex flex-row"   >
                 <div class="rate">
                     <div class="rating">
                         {{item.rate}}
@@ -90,7 +61,7 @@
                 <!-- <div>
                     <a routerLink="{{item.id}}"><img src={{item?.img}} alt="No image found"  onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'"></a>
                 </div> -->
-                <ul class="cart-detail">
+                <ul class="cart-detail" routerLink="{{item.id}}">
                     <li routerLink="{{item.id}}">{{item?.name}}</li>
                     <li routerLink="{{item.id}}">{{item?.dsc}}</li>
                     <li routerLink="{{item.id}}"><i class="fa-solid fa-location-dot"></i> {{item?.country}}</li>
@@ -124,7 +95,7 @@
                             onerror="this.src='https://bookmychefs.com/uploads/dish/default_food.jpg'"></a>
                 </div>
                 
-                <ul>
+                <ul routerLink="{{item.id}}">
                     <li routerLink="{{item.id}}">{{item?.name}}</li>
                     <li routerLink="{{item.id}}">{{item?.dsc}}</li>
                     <li routerLink="{{item.id}}"><i class="fa-solid fa-location-dot"></i>  {{item?.country}}</li>

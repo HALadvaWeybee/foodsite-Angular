@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
 import { HomeService } from 'src/app/services/home.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-food',
@@ -16,20 +17,20 @@ export class FoodComponent implements OnInit {
   shownFood: any[] = [];
   food: any;
   page: number = Number(this._route.snapshot.queryParamMap.get('page')) ?? 1;
-  total: number = 0;
+  productPerPage:number = Number(this._route.snapshot.queryParamMap.get('limit')) ?? 8;
   search = this._route.snapshot.queryParamMap.get('search') || '';
+  total: number = 0;
   slug:any;
   // alertShow:boolean = false;
   cartMsg:boolean = false;
   wishMsg:boolean = false;
   isProductInCart:boolean = false;
   isProductInWish:boolean = false;
-  productPerPageArr = [8 , 12, 16, 20];
+  productPerPageArr = [8, 12, 16, 20];
   message:string[] = ['Add to ', 'Remove From '];
-  productPerPage:number = Number(this._route.snapshot.queryParamMap.get('limit')) ?? 8;
   isLoading=true;
   viewOfPage= 'list';
-
+  subs = new Subscription();
 
   constructor(
     private homeService: HomeService,
@@ -39,32 +40,39 @@ export class FoodComponent implements OnInit {
     private _router: Router,
     private title:Title
   ) {
-    this._route.paramMap.subscribe((par) => {
-      this.loadData();
-      console.log("router paramap called");
-      this.title.setTitle(par.get('slug')); 
-   })
-   this._route.queryParams.subscribe((params: Params):void => {
-     this.page = +params['page'] ? +params['page'] : 1;
-     this.productPerPage = +params['limit'] ? +params['limit'] : 8;
-     this.search = params['search'] ? params['search'] :'';
-     console.log("search is", this.search);
-     console.log("page is", this.page);
-     this.loadData();
-   })
 
+   this.subs = this._router.events.subscribe((event)=>{
+    if(event instanceof NavigationEnd) {
+      this.title.setTitle(this._route.snapshot.paramMap.get('slug'))
+      const {queryParams} = this._router.routerState.snapshot.root;
+      this.page = +queryParams['page'] ? +queryParams['page'] : 1;
+      this.productPerPage = +queryParams['limit'] ? +queryParams['limit'] : 8;
+      this.search = queryParams['search'] ? queryParams['search'] :'';
+      this.loadData();
+    }
+   });
   }
   
   ngOnInit():void {
-    this._router.navigate([], {
-      relativeTo: this._route,
-      queryParams: {
-        page: Number(this._route.snapshot.queryParamMap.get('page')) || 1,
-        limit: Number(this._route.snapshot.queryParamMap.get('limit')) || 8,
-        search:this._route.snapshot.queryParamMap.get('search')==''?null: this._route.snapshot.queryParamMap.get('search'),
-      },
-      queryParamsHandling:'merge'
-    })
+    console.log("ngOninit");
+    
+    // this._router.navigate([], {
+    //   relativeTo: this._route,
+    //   queryParams: {
+    //     page: Number(this._route.snapshot.queryParamMap.get('page')) || 1,
+    //     limit: Number(this._route.snapshot.queryParamMap.get('limit')) || 8,
+    //     search:this._route.snapshot.queryParamMap.get('search')==''?null: this._route.snapshot.queryParamMap.get('search'),
+    //   },
+    //   queryParamsHandling:'merge'
+    // })
+    const view = localStorage.getItem('view')
+    if(view) {
+      this.viewOfPage = JSON.parse(view)
+    }
+  }
+
+  ngOnDestroy():void {
+     this.subs.unsubscribe(); 
   }
   
   itemPerPage(event:any) {
@@ -80,12 +88,11 @@ export class FoodComponent implements OnInit {
           queryParamsHandling:'merge'
         } 
       )
-    this.loadData(); 
   }
+
   async loadData() {
+    console.log("load data");
      this.slug = this._route.snapshot.paramMap.get('slug');
-    //  console.log('this param', this._route.snapshot.paramMap.get('slug'));
-    // console.log("page is", this._route.snapshot.queryParamMap.get('page'));  
       if(this.search!='') {
          console.log("search", this.search);
          this.listOfFood = await this.homeService.getAllSearchFood(this.slug, this.search);
@@ -102,7 +109,6 @@ export class FoodComponent implements OnInit {
           this.cartService.cartList.findIndex(e => e.id == ele.id)==-1 ? ele.isInCartList= false:ele.isInCartList= true;
        })
      this.shownFood = this.listOfFood;
-     
   }
 
   searchInput(box: any) {
@@ -156,10 +162,7 @@ export class FoodComponent implements OnInit {
 
   pageChangeEvent(event: number) {
     this.page = event;
-    // if(this._route.snapshot.paramMap.get('slug')!='our-foods') {
-      this.loadData();
       console.log("you are enter");
-    // }
 
       this._router.navigate([], {
         relativeTo: this._route,
@@ -175,47 +178,6 @@ export class FoodComponent implements OnInit {
 
   changeView(view:string) {
     this.viewOfPage = view == 'list'?'list':'grid';
+    localStorage.setItem('view', JSON.stringify(view));
   }
 }
-
-// if (select.value == '<100') {
-//   this.shownFood = this.listOfFood.filter(
-//     (ele: any) =>
-//       ele.price < 100 &&
-//       ele.name.toLowerCase().includes(box.value.toLowerCase())
-//   );
-// } else if (select.value == '>100') {
-//   this.shownFood = this.listOfFood.filter(
-//     (ele: any) =>
-//       (ele.price > 100) &&
-//       ele.name.toLowerCase().includes(box.value.toLowerCase())
-//   );
-// } else if (select.value == '>200') {
-//   this.shownFood = this.listOfFood.filter(
-//     (ele: any) =>
-//       ele.price > 200 &&
-//       ele.name.toLowerCase().includes(box.value.toLowerCase())
-//   );
-// } else if (select.value == '<200') {
-//   this.shownFood = this.listOfFood.filter(
-//     (ele: any) =>
-//       ele.price < 200 &&
-//       ele.name.toLowerCase().includes(box.value.toLowerCase())
-//   );
-// } else {
-//   this.shownFood = this.listOfFood.filter((ele: any) =>
-//     ele.name.toLowerCase().includes(box.value.toLowerCase())
-//   );
-// }
-
-//  if (select.value == '<100') {
-//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price < 100);
-//  } else if (select.value == '>100') {
-//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price > 100);
-//  } else if (select.value == '>200') {
-//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price > 200);
-//  } else if (select.value == '<200') {
-//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price < 200);
-//  } else {
-//    this.shownFood = this.listOfFood.filter((ele: any) => ele.price < 100);
-//  }

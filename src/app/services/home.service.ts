@@ -7,9 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class HomeService {
 
    data:any;
-   foodList:any[] = [];
    resentFood:any[] =[];
-   ourFoods:any[] =[];
 
   constructor(private http: HttpClient) { 
      console.log("i am in home service");
@@ -37,7 +35,6 @@ export class HomeService {
   async getAllFoodWishCategory(category:string, page:number, productPerPage:number) {
        await this.http.get('https://ig-food-menus.herokuapp.com/'+category+'?_limit='+productPerPage+'&_page=' + page).toPromise().then((res) => {
            this.data = res;
-           this.foodList = this.data;
        })
      return this.data;
   }
@@ -45,10 +42,8 @@ export class HomeService {
   async getAllSearchFood(category:string, search:string) {
     await this.http.get('https://ig-food-menus.herokuapp.com/'+category+'?name_like='+ search).toPromise().then((res) => {
       this.data = res;
-      this.ourFoods = this.data
-      console.log("ourfoods",this.ourFoods.length);
    })
-   return this.ourFoods;
+   return this.data;
   }
 
   async getPagination(type:any) {

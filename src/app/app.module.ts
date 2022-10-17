@@ -27,7 +27,9 @@ import { FooterComponent } from './footer/footer.component';
     HttpClientModule,
     NgxPaginationModule,
   ],
-  providers: [],
+  providers: [
+    
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
