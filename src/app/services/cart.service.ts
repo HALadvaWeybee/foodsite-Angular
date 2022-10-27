@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { LocalstorageService } from './localstorage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   cartList:any[] =[];
-
-  constructor() { 
-    const _cartData = localStorage.getItem('cartList');
-    if(_cartData)
-    this.cartList = (JSON.parse(_cartData))
-  }
   productList = new BehaviorSubject<any>([]);
+
+  constructor(private _localStorage: LocalstorageService) { 
+    // const _cartData = localStorage.getItem('cartList');
+    // if(_cartData)
+    // this.cartList = (JSON.parse(_cartData))
+    this.cartList = this._localStorage.getDataFromLocalStorage('cartList');
+  }
 
   addFoodToCartList(obj:any, productCount:number) {
     console.log("cartlist", obj);
@@ -49,6 +51,7 @@ export class CartService {
   }
 
   setInLocalStorage() {
-    localStorage.setItem('cartList', JSON.stringify([...this.cartList])); 
+    // localStorage.setItem('cartList', JSON.stringify([...this.cartList])); 
+    this._localStorage.setDataInLocalStorage('cartList', this.cartList);
   }
 }

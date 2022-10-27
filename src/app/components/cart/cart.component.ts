@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
+import { LocalstorageService } from 'src/app/services/localstorage.service';
 
 @Component({
   selector: 'app-cart',
@@ -9,12 +10,16 @@ import { CartService } from 'src/app/services/cart.service';
 export class CartComponent implements OnInit {
   total_amount:number=0;
   productCount:number=1;
-  constructor(private cartService:CartService) { }
-
   foodList:any[] =[];
+  
+  constructor(private cartService:CartService,private _localStorage: LocalstorageService) { }
+
   ngOnInit(): void {
-     this.foodList = [...this.cartService.cartList];
-     console.log("this food", this.foodList);
+     this.displayCartProducts();
+  }
+
+  displayCartProducts() {
+    this.foodList = [...this.cartService.cartList];
      
      this.foodList.forEach(ele => {
         this.total_amount += (ele?.data?.price * ele.quantity);
@@ -25,19 +30,19 @@ export class CartComponent implements OnInit {
     this.total_amount -= (this.foodList.filter((ele:any) => ele?.data?.id==id)[0].data?.price * this.foodList.filter((ele:any) => ele?.data?.id==id)[0].quantity)
     this.foodList = this.foodList.filter((ele:any) => ele?.data?.id!=id);
     this.cartService.deleteFromCartList(id);
-    localStorage.setItem('cartList', JSON.stringify([...this.foodList]));
+    this._localStorage.setDataInLocalStorage('cartList', this.foodList);
   }
    
   addIntoCart(obj:any) {
     this.foodList.filter(ele => ele?.data?.id == obj.id)[0].quantity++;
     this.total_amount += (this.foodList.filter(ele => ele?.data?.id == obj.id)[0]?.data?.price)
-    localStorage.setItem('cartList', JSON.stringify([...this.foodList]));
+    this._localStorage.setDataInLocalStorage('cartList', this.foodList);
   }
   removeFromCart(obj:any) {
     if(this.foodList.filter(ele => ele?.data?.id == obj.id)[0].quantity > 1) {
       this.foodList.filter(ele => ele?.data?.id == obj.id)[0].quantity--;
       this.total_amount -= (this.foodList.filter(ele => ele?.data?.id == obj.id)[0]?.data?.price);
     }
-    localStorage.setItem('cartList', JSON.stringify([...this.foodList]));
+    this._localStorage.setDataInLocalStorage('cartList', this.foodList);
   }
 }

@@ -5,6 +5,7 @@ import { HomeService } from 'src/app/services/home.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { Title } from '@angular/platform-browser';
 import { ThisReceiver } from '@angular/compiler';
+import { LocalstorageService } from 'src/app/services/localstorage.service';
 
 @Component({
   selector: 'app-foodinfo', 
@@ -13,9 +14,6 @@ import { ThisReceiver } from '@angular/compiler';
 })
 export class FoodinfoComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private homeService:HomeService, private wishService: WishlistService, private cartService:CartService,
-     private title:Title
-    ) { }
   id:any;
   slug:any;
   data:any[] =[];
@@ -29,9 +27,18 @@ export class FoodinfoComponent implements OnInit {
   printDetail:any;
   productCount:number=1;
   isUpdate=false;
-  isLoading = true; 
+  isLoading = true;
+
+  constructor(private route: ActivatedRoute, private homeService:HomeService, private wishService: WishlistService, private cartService:CartService,
+     private title:Title,
+     private _localStorage: LocalstorageService
+    ) { }
 
   async ngOnInit() {
+     await this.setFoodInfo();
+  }
+  
+  async setFoodInfo() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.slug = this.route.snapshot.paramMap.get('slug');
     this.title.setTitle(this.slug+" | "+this.id)
@@ -60,24 +67,20 @@ export class FoodinfoComponent implements OnInit {
           this.homeService.resentFood.unshift(this.printDetail);
         }
       }
-      localStorage.setItem('resentFood', JSON.stringify(this.homeService.resentFood))
+      this._localStorage.setDataInLocalStorage('resentFood', this.homeService.resentFood);
     } 
   }
-
   add() {
     this.productCount++;
     if(this.cartService.cartList.findIndex(ele =>ele?.data?.id == this.printDetail.id)!=-1) {
        this.isProductInUpdate = true;
     }
-    // this.isUpdate=!this.isUpdate;
   }
   sub() {
     if(this.productCount>1)
     {
       this.productCount--;
-      // this.isUpdate=!this.isUpdate;
     } 
-
   }
 
   addToWishList() {
@@ -101,7 +104,6 @@ export class FoodinfoComponent implements OnInit {
 
   upDateToCartList() {
     this.cartService.updateToCartList(this.printDetail,this.productCount);
-    // this.isProductInCart = !this.isProductInCart;
     this.isProductInUpdate = !this.isProductInUpdate;
     this.cartMsg= true;
     setTimeout(() => {

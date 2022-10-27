@@ -4,7 +4,8 @@ import { HomeService } from 'src/app/services/home.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import { SubSink } from 'subsink';
+import { LocalstorageService } from 'src/app/services/localstorage.service';
 
 @Component({
   selector: 'app-food',
@@ -14,14 +15,12 @@ import { Subscription } from 'rxjs';
 export class FoodComponent implements OnInit {
   data: any;
   listOfFood: any[] = [];
-  shownFood: any[] = [];
   food: any;
   page: number = Number(this._route.snapshot.queryParamMap.get('page')) ?? 1;
   productPerPage:number = Number(this._route.snapshot.queryParamMap.get('limit')) ?? 8;
   search = this._route.snapshot.queryParamMap.get('search') || '';
   total: number = 0;
   slug:any;
-  // alertShow:boolean = false;
   cartMsg:boolean = false;
   wishMsg:boolean = false;
   isProductInCart:boolean = false;
@@ -30,7 +29,7 @@ export class FoodComponent implements OnInit {
   message:string[] = ['Add to ', 'Remove From '];
   isLoading=true;
   viewOfPage= 'list';
-  subs = new Subscription();
+  subs = new SubSink();
 
   constructor(
     private homeService: HomeService,
@@ -38,10 +37,11 @@ export class FoodComponent implements OnInit {
     private cartService: CartService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private title:Title
+    private title:Title,
+    private _localStorage: LocalstorageService
   ) {
 
-   this.subs = this._router.events.subscribe((event)=>{
+   this.subs.sink = this._router.events.subscribe((event)=>{
     if(event instanceof NavigationEnd) {
       this.title.setTitle(this._route.snapshot.paramMap.get('slug'))
       const {queryParams} = this._router.routerState.snapshot.root;
@@ -65,15 +65,9 @@ export class FoodComponent implements OnInit {
     //   },
     //   queryParamsHandling:'merge'
     // })
-    const view = localStorage.getItem('view')
-    if(view) {
-      this.viewOfPage = JSON.parse(view)
-    }
+    this.viewOfPage = this._localStorage.getDataFromLocalStorage('view') || 'list';
   }
 
-  ngOnDestroy():void {
-     this.subs.unsubscribe(); 
-  }
   
   itemPerPage(event:any) {
     this.productPerPage = event.target.value;
@@ -87,70 +81,68 @@ export class FoodComponent implements OnInit {
           }, 
           queryParamsHandling:'merge'
         } 
-      )
+        )
   }
 
   async loadData() {
     console.log("load data");
      this.slug = this._route.snapshot.paramMap.get('slug');
-      if(this.search!='') {
-         console.log("search", this.search);
-         this.listOfFood = await this.homeService.getAllSearchFood(this.slug, this.search);
-         this.isLoading =false;
-         this.total = this.listOfFood.length; 
-         console.log("ourfoods total", this.total);
-       } else {
+     if(this.search!='') {
+       console.log("search", this.search);
+       this.listOfFood = await this.homeService.getAllSearchFood(this.slug, this.search);
+       this.isLoading =false;
+       this.total = this.listOfFood.length; 
+       console.log("ourfoods total", this.total);
+      } else {
         this.listOfFood = await this.homeService.getAllFoodWishCategory(this.slug , this.page, this.productPerPage);
         this.isLoading =false;
         this.total = await this.homeService.getPagination(this._route.snapshot.paramMap.get('slug')); 
-       }
-       this.listOfFood.forEach(ele => {
-          this.wishService.wishList.findIndex(e => e.id == ele.id)==-1 ? ele.isInWishList= false:ele.isInWishList= true;
-          this.cartService.cartList.findIndex(e => e.id == ele.id)==-1 ? ele.isInCartList= false:ele.isInCartList= true;
-       })
-     this.shownFood = this.listOfFood;
-  }
+      }
+      this.listOfFood.forEach(ele => {
+        this.wishService.wishList.findIndex(e => e.id == ele.id)==-1 ? ele.isInWishList= false:ele.isInWishList= true;
+        this.cartService.cartList.findIndex(e => e.id == ele.id)==-1 ? ele.isInCartList= false:ele.isInCartList= true;
+      })
+    }
 
   searchInput(box: any) {
     if(!(+box.value)) {
       this.search = box.value;
       this.page = 1;
       this._router.navigate([`menu/${this.slug}`],
-        {
-          queryParams: {
-            page: this.page,
+      {
+        queryParams: {
+          page: this.page,
             limit:this.productPerPage,
             search:this.search==''?null:this.search,
           }, 
           queryParamsHandling:'merge'
         } 
-      )
+        )
+      }
     }
-  }
-
-  filterProduct(select:any) {
-    console.log("i am called");
-    if(select.value == 'price' || select.value == 'rprice')
-     select.value == 'price'? this.listOfFood.sort((a, b) => a.price > b.price ? 1 : -1) : this.listOfFood.sort((a, b) => a.price > b.price ? -1 : 1);
-    else
-     select.value == 'rate'? this.listOfFood.sort((a, b) => a.rate > b.rate ? 1 : -1) : this.listOfFood.sort((a, b) => a.rate > b.rate ? -1 : 1); 
-    // this.total = this.shownFood.length;
-  }
-
-  addToWishList(id: string) {
-    const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
-     this.wishService.addFoodToWishList(this.listOfFood[index]);
-     this.listOfFood[index].isInWishList = !this.listOfFood[index].isInWishList;
-     this.isProductInWish =this.listOfFood[index].isInWishList;
-     this.wishMsg = true;
-     
-     setTimeout(() => {
-       this.wishMsg = false;
-     }, 1500);
-  }
-
-  addToCartList(id: string) {
-    const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
+    
+    filterProduct(select:any) {
+      console.log("i am called");
+      if(select.value == 'price' || select.value == 'rprice')
+      select.value == 'price'? this.listOfFood.sort((a, b) => a.price > b.price ? 1 : -1) : this.listOfFood.sort((a, b) => a.price > b.price ? -1 : 1);
+      else
+      select.value == 'rate'? this.listOfFood.sort((a, b) => a.rate > b.rate ? 1 : -1) : this.listOfFood.sort((a, b) => a.rate > b.rate ? -1 : 1); 
+    }
+    
+    addToWishList(id: string) {
+      const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
+      this.wishService.addFoodToWishList(this.listOfFood[index]);
+      this.listOfFood[index].isInWishList = !this.listOfFood[index].isInWishList;
+      this.isProductInWish =this.listOfFood[index].isInWishList;
+      this.wishMsg = true;
+      
+      setTimeout(() => {
+        this.wishMsg = false;
+      }, 1500);
+    }
+    
+    addToCartList(id: string) {
+      const index = this.listOfFood.findIndex((ele: any) => ele.id == id);
     this.cartService.addFoodToCartList(this.listOfFood[index], 1);
     this.listOfFood[index].isInCartList = !this.listOfFood[index].isInCartList;
     this.isProductInCart = this.listOfFood[index].isInCartList;
@@ -159,7 +151,7 @@ export class FoodComponent implements OnInit {
       this.cartMsg = false;
     }, 1500);
   }
-
+  
   pageChangeEvent(event: number) {
     this.page = event;
       console.log("you are enter");
@@ -173,11 +165,15 @@ export class FoodComponent implements OnInit {
         },
         queryParamsHandling:'merge'
       })
-  
-  }
+      
+    }
+    
+    changeView(view:string) {
+      this.viewOfPage = view == 'list'?'list':'grid';
+      this._localStorage.setDataInLocalStorage('view', view);
+    }
 
-  changeView(view:string) {
-    this.viewOfPage = view == 'list'?'list':'grid';
-    localStorage.setItem('view', JSON.stringify(view));
+    ngOnDestroy():void {
+       this.subs.unsubscribe(); 
+    }
   }
-}

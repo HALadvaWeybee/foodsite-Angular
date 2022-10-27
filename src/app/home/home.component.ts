@@ -4,6 +4,7 @@ import { CartService } from '../services/cart.service';
 import { HomeService } from '../services/home.service';
 import { WishlistService } from '../services/wishlist.service';
 import { JsLoader } from '../shared/js-loader';
+import { LocalstorageService } from '../services/localstorage.service';
 
 @Component({
   selector: 'app-home',
@@ -11,32 +12,30 @@ import { JsLoader } from '../shared/js-loader';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
-  constructor(private homeService: HomeService, private wishService:WishlistService, private cartService:CartService) {
-    const _resentData = localStorage.getItem('resentFood');
-    if(_resentData)
-     this.resentFood = (JSON.parse(_resentData))
-     this.resentFood.forEach(ele  => {
-      this.wishService.wishList.findIndex(e => e.id == ele.id)==-1 ? ele.isInWishList= false:ele.isInWishList= true;
-      this.cartService.cartList.findIndex(e => e.id == ele.id)==-1 ? ele.isInCartList= false:ele.isInCartList= true;
-    })
-   }
   data:any;
   recommendedForYou:any[] =[];
   resentFood:any[]=[];
   listOfFood:any[] =[];
   cartMsg:boolean = false;
   wishMsg:boolean = false;
-  // cartMsg1:boolean = false;
-  // wishMsg1:boolean = false;
   message:string[] = ['Add to ', 'Remove From '];
   isProductInCart:boolean = false;
   isProductInWish:boolean = false;
   wishCartUpdate = new BehaviorSubject<any>([]);
-  // isProductInCart1:boolean = false;
-  // isProductInWish1:boolean = false;
+
+  constructor(private homeService: HomeService, private wishService:WishlistService, private cartService:CartService, private _localStorage: LocalstorageService) {
+    this.resentFood = this._localStorage.getDataFromLocalStorage('resentFood');
+    this.resentFood.forEach(ele  => {
+      this.wishService.wishList.findIndex(e => e.id == ele.id)==-1 ? ele.isInWishList= false:ele.isInWishList= true;
+      this.cartService.cartList.findIndex(e => e.id == ele.id)==-1 ? ele.isInCartList= false:ele.isInCartList= true;
+    })
+   }
 
   async ngOnInit() {
+    await this.setInitialData();
+  }
+
+  async setInitialData() {
     JsLoader.sliderJs();
     this.data = await this.homeService.getBestForYou();
     this.recommendedForYou = this.data;

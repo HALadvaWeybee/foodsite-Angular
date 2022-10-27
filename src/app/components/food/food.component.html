@@ -16,7 +16,7 @@
     </label>
 </div>
 
-<div class="container" *ngIf="!isLoading">
+<div class="container">
     <div class="d-flex flex-wrap justify-content-center mt-3 search-field">
         <input type="text" #box class="search-box" placeholder="Search Food..." value="{{search}}" pattern="[A-Za-z]"
             (keydown.enter)="searchInput(box)">
@@ -38,7 +38,7 @@
     </div>
 </div> 
 
-<div class="container v-list" *ngIf="viewOfPage=='list'">
+<div class="container v-list" *ngIf="viewOfPage=='list' && !isLoading">
     <div class="grid">
         <div class="text-center row">
             <div *ngFor="let item of listOfFood | paginate: { itemsPerPage: productPerPage, currentPage: page, totalItems: total }; let i = index;" class="col-12 col-sm-12 col-md-6 col-lg-6 mt-3 d-flex flex-row">
@@ -73,7 +73,7 @@
     </div>
 </div>
 
-<div class="container v-grid" *ngIf="viewOfPage=='grid'">
+<div class="container v-grid" *ngIf="viewOfPage=='grid'&& !isLoading">
     <div class="d-flex justify-content-around">
         <div class="text-center grid-p">
             <div class="data-image"

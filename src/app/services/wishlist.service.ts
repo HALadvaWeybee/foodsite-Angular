@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { LocalstorageService } from './localstorage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +10,11 @@ export class WishlistService {
   wishList:any[] =[];
   productList = new BehaviorSubject<any>([]);
 
-  constructor() { 
-    const _wishData = localStorage.getItem('wishList');
-    if(_wishData)
-     this.wishList = (JSON.parse(_wishData))
+  constructor(private _localStorage: LocalstorageService) { 
+    // const _wishData = localStorage.getItem('wishList');
+    // if(_wishData)
+    //  this.wishList = (JSON.parse(_wishData))
+    this.wishList = this._localStorage.getDataFromLocalStorage('wishList');
   }
 
   addFoodToWishList(obj:any) {
@@ -42,6 +44,7 @@ export class WishlistService {
   }
 
   setInLocalStorage() {
-    localStorage.setItem('wishList', JSON.stringify([...this.wishList])); 
+    this._localStorage.setDataInLocalStorage('wishList', this.wishList);
+    // localStorage.setItem('wishList', JSON.stringify([...this.wishList])); 
   }
 }

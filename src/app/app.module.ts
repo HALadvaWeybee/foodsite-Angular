@@ -4,12 +4,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
-import { WishlistComponent } from './wccompo/wishlist/wishlist.component';
-import { CartComponent } from './wccompo/cart/cart.component';
-import { FoodComponent } from './food/food.component';
-import { FoodinfoComponent } from './foodinfo/foodinfo.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { CartComponent } from './components/cart/cart.component';
+import { FoodComponent } from './components/food/food.component';
+import { FoodinfoComponent } from './components/foodinfo/foodinfo.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { FooterComponent } from './footer/footer.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FooterComponent } from './footer/footer.component';
     FoodComponent,
     FoodinfoComponent,
     FooterComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
